@@ -57,11 +57,11 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
         """
         return [
             *self.steps_core_setup(),
-            self.step_build_wheel(),
-            self.step_publish_to_pypi(),
+            self.step_build_package(),
+            self.step_publish_package(),
         ]
 
-    def step_build_wheel(
+    def step_build_package(
         self,
         *,
         step: dict[str, Any] | None = None,
@@ -78,12 +78,12 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
             Step that runs ``uv build``.
         """
         return self.step(
-            step_func=self.step_build_wheel,
+            step_func=self.step_build_package,
             run=str(PackageManager.I.build_args()),
             step=step,
         )
 
-    def step_publish_to_pypi(
+    def step_publish_package(
         self,
         *,
         step: dict[str, Any] | None = None,
@@ -101,7 +101,7 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
             Step that conditionally publishes to PyPI using ``PYPI_TOKEN``.
         """
         return self.step(
-            step_func=self.step_publish_to_pypi,
+            step_func=self.step_publish_package,
             run=str(PackageManager.I.publish_args(token=self.insert_pypi_token())),
             step=step,
         )

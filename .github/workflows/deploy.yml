@@ -70,9 +70,9 @@ jobs:
       uses: astral-sh/setup-uv@main
       with:
         python-version: '3.14'
-    - name: Build Wheel
-      id: build-wheel
+    - name: Build Package
+      id: build-package
       run: uv build
-    - name: Publish To Pypi
-      id: publish-to-pypi
+    - name: Publish Package
+      id: publish-package
       run: uv publish --token ${{ secrets.PYPI_TOKEN }}
