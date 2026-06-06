@@ -33,3 +33,36 @@
 > A pyrig plugin for publishing Python packages to PyPI.
 
 ---
+
+## What is pyrig-pypi
+
+pyrig-pypi is a plugin for [pyrig](https://github.com/Winipedia/pyrig) that
+integrates PyPI publishing into a pyrig project.
+
+## Features
+
+### PyPI Integration
+
+Integrates PyPI publishing into the deployment workflow, by uploading Python packages
+to the Python Package Index (PyPI)
+
+### PyPI Badges
+
+Replaces the python badge with a PyPI badge that generates the pyversions badge
+and adds an additional badge for the packages version on PyPI.
+
+## Usage
+
+To use pyrig-pypi, add it as a developemnt dependency in your pyrig project
+and run `pyrig mkroot` to generate the project structure. This will adjust all
+necessary files.
+
+```bash
+uv add --group dev pyrig-pypi
+uv run pyrig mkroot
+```
+
+If you are using pyrig with its Github workflows, you will need a
+[PyPI](https://pypi.org) account and get an API token there
+and add this token as `PYPI_TOKEN` to your repository secrets.
+This is necessary for the PyPI upload step in the deployment workflow to work.

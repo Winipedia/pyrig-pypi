@@ -33,3 +33,50 @@
 > A pyrig plugin for publishing Python packages to PyPI.
 
 ---
+
+## What it does
+
+Drop-in [pyrig](https://github.com/Winipedia/pyrig) plugin that wires
+[PyPI](https://pypi.org) into your project:
+
+- Adds a PyPI upload step to the CI health-check workflow.
+- Overrides the python badge with a PyPI badge that generates the pyversions badge
+  and adds an additional badge for the packages version on PyPI.
+
+No configuration required — installing the package as a development dependency
+is the whole setup. Then regenerate your pyrig configs as usual.
+The plugin's overrides are picked up automatically.
+
+## Installation
+
+```bash
+uv add --group dev pyrig-pypi
+uv run pyrig mkroot
+```
+
+## Setup
+
+Two one-time steps on the repository side:
+
+1. Create account at [pypi.org](https://pypi.org)
+2. Create an API token
+3. Scope: "Entire account" (recommended change to specific project after first
+   publish)
+4. Click "Add token"
+5. **Copy token immediately** (you won't see it again)
+6. Add token to your repository secrets as `PYPI_TOKEN`
+
+After that, the deploy workflow will automatically upload your package to PyPI
+after every release.
+
+## How it works
+
+The plugin subclasses some pyrig base classes:
+
+- `DeployWorkflowConfigFile` to add the PyPI upload step to the deployment workflow.
+- `ProgrammingLanguage` to replace the python badge with a PyPI pyversions badge.
+- `PackageManager` to add the args for publishing to PyPI.
+
+And adds its own tool class:
+
+- `PackageIndex` to wrap PyPI information and add the PyPI version badge.
