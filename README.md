@@ -49,11 +49,11 @@ to the Python Package Index (PyPI)
 ### PyPI Badges
 
 Replaces the python badge with a PyPI badge that generates the pyversions badge
-and adds an additional badge for the packages version on PyPI.
+and adds an additional badge for the package's version on PyPI.
 
 ## Usage
 
-To use pyrig-pypi, add it as a developemnt dependency in your pyrig project
+To use pyrig-pypi, add it as a development dependency in your pyrig project
 and run `pyrig mkroot` to generate the project structure. This will adjust all
 necessary files.
 

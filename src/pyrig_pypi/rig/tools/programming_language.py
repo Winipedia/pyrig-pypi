@@ -10,7 +10,7 @@ from pyrig.rig.tools.programming_language import (
 
 
 class ProgrammingLanguage(BaseProgrammingLanguage):
-    """You can override methods from the base class to customize behavior."""
+    """Programming language tool that badges the project with PyPI pyversions."""
 
     def image_url(self) -> str:
         """Override to use pyversion badge instead of a static logo."""

@@ -23,7 +23,7 @@ class PackageIndex(Tool):
         return ToolGroup.PROJECT_INFO
 
     def image_url(self) -> str:
-        """Get the PyPI logo URL."""
+        """Get the PyPI version badge URL."""
         repo = PackageManager.I.project_name()
         return f"https://img.shields.io/pypi/v/{repo}?logo=pypi&logoColor=white"
 

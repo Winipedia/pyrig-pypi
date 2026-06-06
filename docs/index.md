@@ -39,9 +39,10 @@
 Drop-in [pyrig](https://github.com/Winipedia/pyrig) plugin that wires
 [PyPI](https://pypi.org) into your project:
 
-- Adds a PyPI upload step to the CI health-check workflow.
+- Adds a build-and-publish-to-PyPI job to the deploy workflow that runs
+  after a successful release.
 - Overrides the python badge with a PyPI badge that generates the pyversions badge
-  and adds an additional badge for the packages version on PyPI.
+  and adds an additional badge for the package's version on PyPI.
 
 No configuration required — installing the package as a development dependency
 is the whole setup. Then regenerate your pyrig configs as usual.
@@ -56,7 +57,7 @@ uv run pyrig mkroot
 
 ## Setup
 
-Two one-time steps on the repository side:
+One-time setup before the first publish:
 
 1. Create account at [pypi.org](https://pypi.org)
 2. Create an API token

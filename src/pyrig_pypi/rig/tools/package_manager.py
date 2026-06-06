@@ -8,7 +8,7 @@ from pyrig.rig.tools.package_manager import PackageManager as BasePackageManager
 
 
 class PackageManager(BasePackageManager):
-    """You can override methods from the base class to customize behavior."""
+    """Package manager that adds PyPI publish arguments to the uv commands."""
 
     def publish_args(self, *args: str, token: str) -> Args:
         """Construct ``Args`` for publishing the package to PyPI.

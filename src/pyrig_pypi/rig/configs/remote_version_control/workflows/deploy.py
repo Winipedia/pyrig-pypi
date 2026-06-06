@@ -17,7 +17,7 @@ from pyrig_pypi.rig.tools.package_index import PackageIndex
 
 
 class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
-    """You can override methods from the base class to customize behavior."""
+    """Deploy workflow that adds a build-and-publish-to-PyPI job after release."""
 
     def jobs(self) -> ConfigDict:
         """Get the jobs for the deploy workflow.
@@ -47,9 +47,8 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
     def steps_package(self) -> list[dict[str, Any]]:
         """Build the ordered steps for the publish-package job.
 
-        Combines core setup with a distribution build and a conditional PyPI
-        publish. The publish step reads ``PYPI_TOKEN`` from secrets and echoes
-        a skip message when the secret is absent.
+        Combines core setup with a distribution build and a PyPI publish step.
+        The publish step authenticates with the ``PYPI_TOKEN`` repository secret.
 
         Returns:
             Ordered list of step dicts: core setup, build wheel and source
@@ -66,7 +65,7 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
         *,
         step: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
-        """Build a step that packages the project as a Python wheel.
+        """Build a step that packages the project for distribution.
 
         Runs ``uv build`` to produce wheel and source distributions in the
         ``dist/`` directory.
@@ -88,17 +87,16 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
         *,
         step: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
-        """Build a step that publishes the wheel to PyPI.
+        """Build a step that publishes the distributions to PyPI.
 
-        The publish command is wrapped in a shell conditional: if
-        ``PYPI_TOKEN`` is configured the step runs ``uv publish``; otherwise
-        it prints a skip message and exits successfully.
+        Runs ``uv publish`` authenticated with the ``PYPI_TOKEN`` repository
+        secret, injected as the ``${{ secrets.PYPI_TOKEN }}`` expression.
 
         Args:
             step: Additional keys to merge into the step configuration.
 
         Returns:
-            Step that conditionally publishes to PyPI using ``PYPI_TOKEN``.
+            Step that publishes to PyPI using ``PYPI_TOKEN``.
         """
         return self.step(
             step_func=self.step_publish_package,
