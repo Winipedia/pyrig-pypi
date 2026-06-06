@@ -30,6 +30,6 @@
 
 ---
 
-> Add your description here
+> A pyrig plugin for publishing Python packages to PyPI.
 
 ---
