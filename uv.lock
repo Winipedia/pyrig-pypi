@@ -1148,14 +1148,26 @@ wheels = [
 
 [[package]]
 name = "pyrig"
-version = "11.19.0"
+version = "12.0.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/8e/59/ed404bfdb99a58a13de0600f33e5b1b27ec6abcd8194ef3558c34f9af710/pyrig-11.19.0.tar.gz", hash = "sha256:d6146d9d5c35adf236d86ebf943f16e568428889c8be9c20002e1fb8f7ced124", size = 144891, upload-time = "2026-06-03T15:49:09.258Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/1f/f4/c5af9dffb9e0aa4d7975be4b8c7792236909cd26728b8a3ae707d950ceb0/pyrig-12.0.1.tar.gz", hash = "sha256:bc43e6a9180eb1f9b61f45d811ab5792ecd79258d4a34a35717e6a9fc4f2b05c", size = 142774, upload-time = "2026-06-06T19:32:56.774Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/43/c6/b8ec5c32c45b39f21acd83680cc68c8656b7ef5fecee964a83924ba10d6b/pyrig-11.19.0-py3-none-any.whl", hash = "sha256:97c631d590050854c515a0976030fe1652025e9c7d7424b51ebcf4ecf6bc0abd", size = 212816, upload-time = "2026-06-03T15:49:10.409Z" },
+    { url = "https://files.pythonhosted.org/packages/07/67/341619d633b41e6f4563fa1df3c2b1e9b9719f75a4416a33260104c9fd18/pyrig-12.0.1-py3-none-any.whl", hash = "sha256:e82e2d7493bc3bbf832e7256c5860f373659e8bc9c394e95c3207c1f213a9fb3", size = 209780, upload-time = "2026-06-06T19:32:54.115Z" },
+]
+
+[[package]]
+name = "pyrig-codecov"
+version = "1.1.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pyrig" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/95/0e/ef21d96c6b382eb6fda9dc9d53ee06029f82448013fe4bde57f6f6e085d7/pyrig_codecov-1.1.0.tar.gz", hash = "sha256:0e4659aa6366f6eb8af1f45354bb69dc22d9dbd514633997cc9d5fd9481997de", size = 5183, upload-time = "2026-06-06T17:41:32.987Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b3/e9/552c4f569f157901c472a862d5d3e3820b10c66d6d07243f3d41c37758c4/pyrig_codecov-1.1.0-py3-none-any.whl", hash = "sha256:9ced1873e66a87ea2f2cb1c5d388c9960577a7221397ffee86f127fb7a81c676", size = 8470, upload-time = "2026-06-06T17:41:31.819Z" },
 ]
 
 [[package]]
@@ -1195,6 +1207,7 @@ dev = [
     { name = "pip-audit" },
     { name = "prek" },
     { name = "pygithub" },
+    { name = "pyrig-codecov" },
     { name = "pyrig-dev" },
     { name = "pytest" },
     { name = "pytest-cov" },
@@ -1217,6 +1230,7 @@ dev = [
     { name = "pip-audit", specifier = ">=2.10.0" },
     { name = "prek", specifier = ">=0.4.4" },
     { name = "pygithub", specifier = ">=2.9.1" },
+    { name = "pyrig-codecov", specifier = ">=1.0.6" },
     { name = "pyrig-dev", specifier = ">=1.0.0" },
     { name = "pytest", specifier = ">=9.0.3" },
     { name = "pytest-cov", specifier = ">=7.1.0" },

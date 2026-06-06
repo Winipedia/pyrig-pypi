@@ -1,0 +1,123 @@
+"""GitHub Actions workflow for deploying.
+
+Provides the ``DeployWorkflowConfigFile`` class, which generates the
+``.github/workflows/deploy.yml`` workflow file. This workflow is the final
+step in the automated CI/CD pipeline and runs after a successful release.
+"""
+
+from typing import Any
+
+from pyrig.rig.configs.base.config_file import ConfigDict
+from pyrig.rig.configs.remote_version_control.workflows.deploy import (
+    DeployWorkflowConfigFile as BaseDeployWorkflowConfigFile,
+)
+from pyrig.rig.tools.package_manager import PackageManager
+
+from pyrig_pypi.rig.tools.package_index import PackageIndex
+
+
+class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
+    """You can override methods from the base class to customize behavior."""
+
+    def jobs(self) -> ConfigDict:
+        """Get the jobs for the deploy workflow.
+
+        Combines the base jobs with the package publish job.
+        """
+        return {
+            **super().jobs(),
+            **self.job_package(),
+        }
+
+    def job_package(self) -> ConfigDict:
+        """Build the job that packages and publishes the project to PyPI.
+
+        The job runs only when the triggering workflow run succeeded. Steps
+        are provided by :meth:`steps_package`.
+
+        Returns:
+            Dict mapping the derived job ID to its configuration.
+        """
+        return self.job(
+            job_func=self.job_package,
+            steps=self.steps_package(),
+            if_condition=self.if_workflow_run_is_success(),
+        )
+
+    def steps_package(self) -> list[dict[str, Any]]:
+        """Build the ordered steps for the publish-package job.
+
+        Combines core setup with a distribution build and a conditional PyPI
+        publish. The publish step reads ``PYPI_TOKEN`` from secrets and echoes
+        a skip message when the secret is absent.
+
+        Returns:
+            Ordered list of step dicts: core setup, build wheel and source
+            distributions, publish to PyPI.
+        """
+        return [
+            *self.steps_core_setup(),
+            self.step_build_wheel(),
+            self.step_publish_to_pypi(),
+        ]
+
+    def step_build_wheel(
+        self,
+        *,
+        step: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        """Build a step that packages the project as a Python wheel.
+
+        Runs ``uv build`` to produce wheel and source distributions in the
+        ``dist/`` directory.
+
+        Args:
+            step: Additional keys to merge into the step configuration.
+
+        Returns:
+            Step that runs ``uv build``.
+        """
+        return self.step(
+            step_func=self.step_build_wheel,
+            run=str(PackageManager.I.build_args()),
+            step=step,
+        )
+
+    def step_publish_to_pypi(
+        self,
+        *,
+        step: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        """Build a step that publishes the wheel to PyPI.
+
+        The publish command is wrapped in a shell conditional: if
+        ``PYPI_TOKEN`` is configured the step runs ``uv publish``; otherwise
+        it prints a skip message and exits successfully.
+
+        Args:
+            step: Additional keys to merge into the step configuration.
+
+        Returns:
+            Step that conditionally publishes to PyPI using ``PYPI_TOKEN``.
+        """
+        return self.step(
+            step_func=self.step_publish_to_pypi,
+            run=str(PackageManager.I.publish_args(token=self.insert_pypi_token())),
+            step=step,
+        )
+
+    def insert_pypi_token(self) -> str:
+        """Get the ``${{ secrets.PYPI_TOKEN }}`` expression.
+
+        Returns:
+            GitHub Actions expression for the ``PYPI_TOKEN`` secret.
+        """
+        return self.insert_var(self.pypi_token_var())
+
+    def pypi_token_var(self) -> str:
+        """Get the raw secrets expression for ``PYPI_TOKEN``.
+
+        Returns:
+            ``"secrets.PYPI_TOKEN"``
+        """
+        return self.secrets_var(PackageIndex.I.access_token_key())
