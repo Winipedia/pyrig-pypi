@@ -3,7 +3,7 @@
 Wraps commands and information of the package index tool.
 """
 
-from pyrig.rig.tools.base.tool import Tool, ToolGroup
+from pyrig.rig.tools.base.tool import Group, Tool
 from pyrig.rig.tools.package_manager import PackageManager
 
 
@@ -20,7 +20,7 @@ class PackageIndex(Tool):
 
     def group(self) -> str:
         """Returns the group the tool belongs to."""
-        return ToolGroup.PROJECT_INFO
+        return Group.PROJECT_INFO
 
     def image_url(self) -> str:
         """Get the PyPI version badge URL."""
