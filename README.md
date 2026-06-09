@@ -50,11 +50,6 @@ to the Python Package Index (PyPI)
 Replaces the python badge with a PyPI badge that generates the pyversions badge
 and adds an additional badge for the package's version on PyPI.
 
-### PyPI Keyword
-
-Tags the project with the `pyrig` keyword in its metadata so the published
-package is discoverable as part of the pyrig ecosystem on PyPI.
-
 ## Usage
 
 To use pyrig-pypi, add it as a development dependency in your pyrig project
