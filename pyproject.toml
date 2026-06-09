@@ -19,6 +19,9 @@ classifiers = [
     "Operating System :: OS Independent",
     "Typing :: Typed",
 ]
+keywords = [
+    "pyrig",
+]
 
 [[project.authors]]
 name = "Winipedia"
