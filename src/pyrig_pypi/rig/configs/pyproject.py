@@ -31,7 +31,7 @@ class PyprojectConfigFile(BasePyprojectConfigFile):
     def make_keywords(self) -> list[str]:
         """Get the keywords applied to every package published via this plugin.
 
-        Returns the ``pyrig`` ecosystem keyword. It is universally accurate
+        Adds the ``pyrig`` ecosystem keyword. It is universally accurate
         because any package published through this plugin is a pyrig project,
         and it aids discoverability of the pyrig ecosystem in PyPI search.
 
