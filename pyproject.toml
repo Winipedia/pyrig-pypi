@@ -1,6 +1,6 @@
 [project]
 name = "pyrig-pypi"
-version = "1.2.1"
+version = "1.2.2"
 description = "A pyrig plugin for publishing Python packages to PyPI."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -12,6 +12,8 @@ license-files = [
     "LICENSE",
 ]
 classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
