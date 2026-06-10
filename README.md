@@ -50,6 +50,11 @@ to the Python Package Index (PyPI)
 Replaces the python badge with a PyPI badge that generates the pyversions badge
 and adds an additional badge for the package's version on PyPI.
 
+### PyPI Metadata
+
+Adds PyPI trove classifiers and keywords to `pyproject.toml` to improve
+discoverability on PyPI.
+
 ## Usage
 
 To use pyrig-pypi, add it as a development dependency in your pyrig project

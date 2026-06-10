@@ -11,10 +11,17 @@ from pyrig.rig.tools.pyrigger import Pyrigger
 
 
 class PyprojectConfigFile(BasePyprojectConfigFile):
-    """You can override methods from the base class to customize behavior."""
+    """Pyproject config that adds PyPI trove classifiers and keywords."""
 
     def _configs(self) -> ConfigDict:
-        """Override the base to add this plugins additions."""
+        """Extend the base config with PyPI classifiers and keywords.
+
+        Adds the ``project.classifiers`` and ``project.keywords`` fields to the
+        base pyproject.toml configuration.
+
+        Returns:
+            The base configuration dict with the ``project`` table augmented.
+        """
         configs = super()._configs()
         project: ConfigDict = configs["project"]
         project["classifiers"] = self.make_classifiers()
@@ -48,7 +55,7 @@ class PyprojectConfigFile(BasePyprojectConfigFile):
         ]
 
     def make_keywords(self) -> list[str]:
-        """Get the keywords applied to every package published via this plugin.
+        """Get the PyPI keywords for this project.
 
         Adds the ``pyrig`` ecosystem keyword. It is universally accurate
         because any package published through this plugin is a pyrig project,

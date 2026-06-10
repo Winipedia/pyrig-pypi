@@ -76,6 +76,8 @@ The plugin subclasses some pyrig base classes:
 - `DeployWorkflowConfigFile` to add the PyPI upload step to the deployment workflow.
 - `ProgrammingLanguage` to replace the python badge with a PyPI pyversions badge.
 - `PackageManager` to add the args for publishing to PyPI.
+- `PyprojectConfigFile` to add PyPI trove classifiers and keywords to the
+  project metadata.
 
 And adds its own tool class:
 
