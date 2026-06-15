@@ -41,7 +41,6 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
         return self.job(
             job_func=self.job_package,
             steps=self.steps_package(),
-            if_condition=self.if_workflow_run_is_success(),
         )
 
     def steps_package(self) -> list[dict[str, Any]]:
