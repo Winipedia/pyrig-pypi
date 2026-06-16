@@ -109,7 +109,7 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
         Returns:
             GitHub Actions expression for the ``PYPI_TOKEN`` secret.
         """
-        return self.insert_var(self.pypi_token_var())
+        return self.insert_expression(self.pypi_token_var())
 
     def pypi_token_var(self) -> str:
         """Get the raw secrets expression for ``PYPI_TOKEN``.
