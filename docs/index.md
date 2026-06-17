@@ -51,7 +51,7 @@ The plugin's overrides are picked up automatically.
 
 ```bash
 uv add --group dev pyrig-pypi
-uv run pyrig mkroot
+uv run pyrig sync
 ```
 
 ## Setup

@@ -58,12 +58,12 @@ discoverability on PyPI.
 ## Usage
 
 To use pyrig-pypi, add it as a development dependency in your pyrig project
-and run `pyrig mkroot` to generate the project structure. This will adjust all
+and run `pyrig sync` to generate the project structure. This will adjust all
 necessary files.
 
 ```bash
 uv add --group dev pyrig-pypi
-uv run pyrig mkroot
+uv run pyrig sync
 ```
 
 If you are using pyrig with its Github workflows, you will need a
