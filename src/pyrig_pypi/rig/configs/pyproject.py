@@ -6,8 +6,10 @@ runtime and development dependencies, build system configuration, and tool setti
 """
 
 from pyrig.rig.configs.base.config_file import ConfigDict
-from pyrig.rig.configs.pyproject import PyprojectConfigFile as BasePyprojectConfigFile
 from pyrig.rig.tools.pyrigger import Pyrigger
+from pyrig_dev.rig.configs.pyproject import (
+    PyprojectConfigFile as BasePyprojectConfigFile,
+)
 
 
 class PyprojectConfigFile(BasePyprojectConfigFile):

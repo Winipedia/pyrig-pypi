@@ -8,10 +8,10 @@ step in the automated CI/CD pipeline and runs after a successful release.
 from typing import Any
 
 from pyrig.rig.configs.base.config_file import ConfigDict
-from pyrig.rig.configs.remote_version_control.workflows.deploy import (
+from pyrig.rig.tools.package_manager import PackageManager
+from pyrig_dev.rig.configs.remote_version_control.workflows.deploy import (
     DeployWorkflowConfigFile as BaseDeployWorkflowConfigFile,
 )
-from pyrig.rig.tools.package_manager import PackageManager
 
 from pyrig_pypi.rig.tools.package_index import PackageIndex
 

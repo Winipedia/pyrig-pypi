@@ -1,11 +1,12 @@
 [project]
 name = "pyrig-pypi"
-version = "1.5.6"
+version = "1.7.0"
 description = "A pyrig plugin for publishing Python packages to PyPI."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "pyrig>=11.19.0",
+    "pyrig-dev>=3.4.0",
 ]
 license = "MIT"
 license-files = [
@@ -44,6 +45,7 @@ pyrig-pypi = "pyrig.rig.cli.main:main"
 [dependency-groups]
 dev = [
     "bandit>=1.9.4",
+    "deptry>=0.25.1",
     "mkdocs>=1.6.1",
     "mkdocs-material>=9.7.6",
     "mkdocs-mermaid2-plugin>=1.2.3",
@@ -59,6 +61,7 @@ dev = [
     "ruff>=0.15.16",
     "rumdl>=0.2.8",
     "ty>=0.0.44",
+    "typos>=1.47.2",
 ]
 
 [build-system]
@@ -100,4 +103,12 @@ addopts = "--cov=pyrig_pypi --cov-branch --cov-report=term-missing --cov-fail-un
 skips = [
     "*/tests/*.py",
     "*/test_*/*.py",
+]
+
+[tool.deptry]
+root = "src"
+
+[tool.deptry.per_rule_ignores]
+DEP002 = [
+    "pyrig",
 ]

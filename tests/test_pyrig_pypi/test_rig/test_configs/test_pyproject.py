@@ -1,6 +1,6 @@
 """Test module."""
 
-from pyrig.rig.configs.pyproject import PyprojectConfigFile
+from pyrig_dev.rig.configs.pyproject import PyprojectConfigFile
 
 
 class TestPyprojectConfigFile:
