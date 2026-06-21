@@ -5,7 +5,8 @@ pyproject.toml according to PEP 518, 621, and 660. Covers project metadata,
 runtime and development dependencies, build system configuration, and tool settings.
 """
 
-from pyrig.rig.configs.base.config_file import ConfigDict
+from typing import Any
+
 from pyrig.rig.tools.pyrigger import Pyrigger
 from pyrig_dev.rig.configs.pyproject import (
     PyprojectConfigFile as BasePyprojectConfigFile,
@@ -15,7 +16,7 @@ from pyrig_dev.rig.configs.pyproject import (
 class PyprojectConfigFile(BasePyprojectConfigFile):
     """Pyproject config that adds PyPI trove classifiers and keywords."""
 
-    def _configs(self) -> ConfigDict:
+    def _configs(self) -> dict[str, Any]:
         """Extend the base config with PyPI classifiers and keywords.
 
         Adds the ``project.classifiers`` and ``project.keywords`` fields to the
@@ -25,7 +26,7 @@ class PyprojectConfigFile(BasePyprojectConfigFile):
             The base configuration dict with the ``project`` table augmented.
         """
         configs = super()._configs()
-        project: ConfigDict = configs["project"]
+        project: dict[str, Any] = configs["project"]
         project["classifiers"] = self.make_classifiers()
         project["keywords"] = self.make_keywords()
         return configs

@@ -7,7 +7,6 @@ step in the automated CI/CD pipeline and runs after a successful release.
 
 from typing import Any
 
-from pyrig.rig.configs.base.config_file import ConfigDict
 from pyrig.rig.tools.package_manager import PackageManager
 from pyrig_dev.rig.configs.remote_version_control.workflows.deploy import (
     DeployWorkflowConfigFile as BaseDeployWorkflowConfigFile,
@@ -19,7 +18,7 @@ from pyrig_pypi.rig.tools.package_index import PackageIndex
 class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
     """Deploy workflow that adds a build-and-publish-to-PyPI job after release."""
 
-    def jobs(self) -> ConfigDict:
+    def jobs(self) -> dict[str, Any]:
         """Get the jobs for the deploy workflow.
 
         Combines the base jobs with the package publish job.
@@ -29,7 +28,7 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
             **self.job_package(),
         }
 
-    def job_package(self) -> ConfigDict:
+    def job_package(self) -> dict[str, Any]:
         """Build the job that packages and publishes the project to PyPI.
 
         The job runs only when the triggering workflow run succeeded. Steps
