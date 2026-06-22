@@ -1,6 +1,6 @@
 [project]
 name = "pyrig-pypi"
-version = "1.10.1"
+version = "1.11.0"
 description = "A pyrig plugin for publishing Python packages to PyPI."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -54,6 +54,7 @@ dev = [
     "prek>=0.4.4",
     "pyrig-codecov>=1.0.6",
     "pyrig-dev>=1.0.0",
+    "pyrig-fixtures>=0.8.0",
     "pytest>=9.0.3",
     "pytest-cov>=7.1.0",
     "ruff>=0.15.16",
