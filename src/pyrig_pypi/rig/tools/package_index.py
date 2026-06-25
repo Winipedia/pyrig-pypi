@@ -15,11 +15,15 @@ class PackageIndex(Tool):
     """
 
     def name(self) -> str:
-        """Get tool name."""
+        """Return the tool command name.
+
+        Returns:
+            ``'pypi'``
+        """
         return "pypi"
 
     def group(self) -> str:
-        """Returns the group the tool belongs to."""
+        """Return the badge group this tool belongs to."""
         return Group.PROJECT_INFO
 
     def image_url(self) -> str:

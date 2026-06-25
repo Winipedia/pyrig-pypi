@@ -1,12 +1,12 @@
 [project]
 name = "pyrig-pypi"
-version = "1.11.0"
+version = "1.14.0"
 description = "A pyrig plugin for publishing Python packages to PyPI."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "pyrig-runtime",
     "pyrig>=15.4.1",
-    "pyrig-dev>=4.2.2",
 ]
 license = "MIT"
 license-files = [
@@ -40,7 +40,7 @@ Issues = "https://github.com/Winipedia/pyrig-pypi/issues"
 Changelog = "https://github.com/Winipedia/pyrig-pypi/releases"
 
 [project.scripts]
-pyrig-pypi = "pyrig.rig.cli.main:main"
+pyrig-pypi = "pyrig_runtime.rig.cli.main:main"
 
 [dependency-groups]
 dev = [
@@ -52,8 +52,8 @@ dev = [
     "mkdocstrings[python]>=1.0.4",
     "pip-audit>=2.10.0",
     "prek>=0.4.4",
+    "pyrig",
     "pyrig-codecov>=1.0.6",
-    "pyrig-dev>=1.0.0",
     "pyrig-fixtures>=0.8.0",
     "pytest>=9.0.3",
     "pytest-cov>=7.1.0",
@@ -109,5 +109,5 @@ root = "src"
 
 [tool.deptry.per_rule_ignores]
 DEP002 = [
-    "pyrig",
+    "pyrig-runtime",
 ]
