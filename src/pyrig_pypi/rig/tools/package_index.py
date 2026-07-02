@@ -1,60 +1,38 @@
-"""Package index tool wrapper.
-
-Wraps commands and information of the package index tool.
-"""
+"""PyPI index integration for the project's badges, links, and publish token."""
 
 from pyrig.rig.tools.base.tool import Group, Tool
 from pyrig.rig.tools.package_manager import PackageManager
 
 
 class PackageIndex(Tool):
-    """PyPI package index wrapper.
+    """PyPI badge and metadata for the project's package index listing.
 
-    Constructs the PyPI project URL and shields.io version badge for the
-    current project. The package name is read from ``PackageManager.I.project_name()``.
+    Badges the project with its current PyPI version linking to the project's
+    PyPI page, and names the CI secret used to authenticate PyPI uploads.
     """
 
     def name(self) -> str:
-        """Return the tool command name.
-
-        Returns:
-            ``'pypi'``
-        """
+        """Return `"pypi"`."""
         return "pypi"
 
     def group(self) -> str:
-        """Return the badge group this tool belongs to."""
+        """Return `Group.PROJECT_INFO`."""
         return Group.PROJECT_INFO
 
     def image_url(self) -> str:
-        """Get the PyPI version badge URL."""
+        """Return the shields.io badge URL for the project's current PyPI version."""
         repo = PackageManager.I.project_name()
         return f"https://img.shields.io/pypi/v/{repo}?logo=pypi&logoColor=white"
 
     def link_url(self) -> str:
-        """Get the PyPI project page URL."""
+        """Return the URL of the project's PyPI page."""
         repo = PackageManager.I.project_name()
         return f"https://pypi.org/project/{repo}"
 
     def dev_dependencies(self) -> tuple[str, ...]:
-        """Get development dependencies for this tool.
-
-        Returns an empty tuple because PyPI itself requires no extra
-        development dependency; publishing is handled by the package
-        manager (e.g. uv) via ``pyproject.toml``.
-
-        Returns:
-            Empty tuple.
-        """
+        """Return an empty tuple; `pypi` is not an installable dev dependency."""
         return ()
 
     def access_token_key(self) -> str:
-        """Get the environment variable key for the PyPI access token.
-
-        Used in CI/CD pipelines to authenticate when publishing packages
-        to PyPI.
-
-        Returns:
-            ``'PYPI_TOKEN'``
-        """
+        """Return `"PYPI_TOKEN"`, the env var name for the PyPI access token."""
         return "PYPI_TOKEN"

@@ -1,1 +1,1 @@
-"""Package initialization."""
+"""PyPI-specific overrides of version control configuration."""

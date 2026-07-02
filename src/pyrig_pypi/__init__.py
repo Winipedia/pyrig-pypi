@@ -1,1 +1,1 @@
-"""The top-level package for the project."""
+"""Pyrig plugin that integrates PyPI publishing into a pyrig project."""

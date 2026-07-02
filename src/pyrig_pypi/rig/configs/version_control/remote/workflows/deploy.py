@@ -1,27 +1,23 @@
-"""GitHub Actions workflow for deploying.
-
-Provides the ``DeployWorkflowConfigFile`` class, which generates the
-``.github/workflows/deploy.yml`` workflow file. This workflow is the final
-step in the automated CI/CD pipeline and runs after a successful release.
-"""
+"""Deploy workflow extended to build the package and publish it to PyPI."""
 
 from typing import Any
 
 from pyrig.rig.configs.version_control.remote.workflows.deploy import (
     DeployWorkflowConfigFile as BaseDeployWorkflowConfigFile,
 )
-from pyrig.rig.tools.package_manager import PackageManager
 
 from pyrig_pypi.rig.tools.package_index import PackageIndex
+from pyrig_pypi.rig.tools.package_manager import PackageManager
 
 
 class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
-    """Deploy workflow that adds a build-and-publish-to-PyPI job after release."""
+    """Deploy workflow that also builds the package and publishes it to PyPI."""
 
     def jobs(self) -> dict[str, Any]:
-        """Get the jobs for the deploy workflow.
+        """Build the workflow's jobs, adding the package build-and-publish job.
 
-        Combines the base jobs with the package publish job.
+        Returns:
+            Dict mapping each job ID to its configuration.
         """
         return {
             **super().jobs(),
@@ -29,10 +25,7 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
         }
 
     def job_package(self) -> dict[str, Any]:
-        """Build the job that packages and publishes the project to PyPI.
-
-        The job runs only when the triggering workflow run succeeded. Steps
-        are provided by :meth:`steps_package`.
+        """Build the job that builds the package and publishes it to PyPI.
 
         Returns:
             Dict mapping the derived job ID to its configuration.
@@ -43,14 +36,11 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
         )
 
     def steps_package(self) -> list[dict[str, Any]]:
-        """Build the ordered steps for the publish-package job.
-
-        Combines core setup with a distribution build and a PyPI publish step.
-        The publish step authenticates with the ``PYPI_TOKEN`` repository secret.
+        """Build the ordered steps for the package job.
 
         Returns:
-            Ordered list of step dicts: core setup, build wheel and source
-            distributions, publish to PyPI.
+            Ordered list of step dicts: core setup, build the distributions,
+            then publish them to PyPI.
         """
         return [
             *self.steps_core_setup(),
@@ -63,16 +53,16 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
         *,
         step: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
-        """Build a step that packages the project for distribution.
+        """Build a step that packages the project into distributable artifacts.
 
-        Runs ``uv build`` to produce wheel and source distributions in the
-        ``dist/`` directory.
+        Runs `uv build` to produce wheel and source distributions in the
+        `dist/` directory.
 
         Args:
             step: Additional keys to merge into the step configuration.
 
         Returns:
-            Step that runs ``uv build``.
+            Step that runs `uv build`.
         """
         return self.step(
             step_func=self.step_build_package,
@@ -85,16 +75,16 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
         *,
         step: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
-        """Build a step that publishes the distributions to PyPI.
+        """Build a step that publishes the built distributions to PyPI.
 
-        Runs ``uv publish`` authenticated with the ``PYPI_TOKEN`` repository
-        secret, injected as the ``${{ secrets.PYPI_TOKEN }}`` expression.
+        Runs `uv publish` authenticated with the `PYPI_TOKEN` repository secret,
+        injected as the `${{ secrets.PYPI_TOKEN }}` expression.
 
         Args:
             step: Additional keys to merge into the step configuration.
 
         Returns:
-            Step that publishes to PyPI using ``PYPI_TOKEN``.
+            Step that publishes to PyPI using `PYPI_TOKEN`.
         """
         return self.step(
             step_func=self.step_publish_package,
@@ -103,17 +93,17 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
         )
 
     def insert_pypi_token(self) -> str:
-        """Get the ``${{ secrets.PYPI_TOKEN }}`` expression.
+        """Return the `${{ secrets.PYPI_TOKEN }}` expression.
 
         Returns:
-            GitHub Actions expression for the ``PYPI_TOKEN`` secret.
+            GitHub Actions expression for the `PYPI_TOKEN` secret.
         """
         return self.insert_expression(self.pypi_token_var())
 
     def pypi_token_var(self) -> str:
-        """Get the raw secrets expression for ``PYPI_TOKEN``.
+        """Return the raw secrets expression for `PYPI_TOKEN`.
 
         Returns:
-            ``"secrets.PYPI_TOKEN"``
+            The `"secrets.PYPI_TOKEN"` expression string.
         """
         return self.secrets_var(PackageIndex.I.access_token_key())
