@@ -32,40 +32,31 @@
 
 ---
 
-## What is pyrig-pypi
+## Overview
 
-pyrig-pypi is a plugin for [pyrig](https://github.com/Winipedia/pyrig) that
-integrates PyPI publishing into a pyrig project.
+pyrig-pypi is a [pyrig](https://github.com/Winipedia/pyrig) plugin that publishes
+your package to PyPI automatically as part of your CI/CD pipeline.
 
-## Features
+## What it adds
 
-### PyPI Integration
-
-Integrates PyPI publishing into the deployment workflow, by uploading Python packages
-to the Python Package Index (PyPI)
-
-### PyPI Badges
-
-Replaces the python badge with a PyPI badge that generates the pyversions badge
-and adds an additional badge for the package's version on PyPI.
-
-### PyPI Metadata
-
-Adds PyPI trove classifiers and keywords to `pyproject.toml` to improve
-discoverability on PyPI.
+- **Automatic publishing** — a build-and-publish step that uploads your package
+  to PyPI after a successful release.
+- **PyPI badges** — a package-version badge and a PyPI-driven Python versions
+  badge.
+- **PyPI metadata** — trove classifiers and keywords in `pyproject.toml` for
+  discoverability.
 
 ## Usage
 
-To use pyrig-pypi, add it as a development dependency in your pyrig project
-and run `pyrig sync` to generate the project structure. This will adjust all
-necessary files.
-
 ```bash
-uv add --group dev pyrig-pypi
+uv add pyrig-pypi --dev
 uv run pyrig sync
 ```
 
-If you are using pyrig with its Github workflows, you will need a
-[PyPI](https://pypi.org) account and get an API token there
-and add this token as `PYPI_TOKEN` to your repository secrets.
-This is necessary for the PyPI upload step in the deployment workflow to work.
+Publishing from CI requires a `PYPI_TOKEN` repository secret — see the
+documentation for the one-time setup.
+
+## Documentation
+
+Full documentation, including the auto-generated API reference, is available on
+the [documentation site](https://Winipedia.github.io/pyrig-pypi).

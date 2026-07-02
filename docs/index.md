@@ -32,7 +32,7 @@
 
 ---
 
-## What it does
+## Overview
 
 Drop-in [pyrig](https://github.com/Winipedia/pyrig) plugin that wires
 [PyPI](https://pypi.org) into your project:
@@ -49,7 +49,7 @@ The plugin's overrides are picked up automatically.
 ## Installation
 
 ```bash
-uv add --group dev pyrig-pypi
+uv add pyrig-pypi --dev
 uv run pyrig sync
 ```
 
@@ -81,3 +81,8 @@ The plugin subclasses some pyrig base classes:
 And adds its own tool class:
 
 - `PackageIndex` to wrap PyPI information and add the PyPI version badge.
+
+## API Reference
+
+For class- and method-level details, see the [API Reference](api.md), generated
+automatically from the source.
