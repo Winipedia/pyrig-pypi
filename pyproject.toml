@@ -1,12 +1,12 @@
 [project]
 name = "pyrig-pypi"
-version = "1.26.0"
+version = "2.0.0"
 description = "A pyrig plugin for publishing Python packages to PyPI."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "pyrig-runtime",
-    "pyrig>=15.4.1",
+    "pyrig>=15.64.0",
+    "pyrig-runtime>=0.24.0",
 ]
 license = "MIT"
 license-files = [
@@ -50,16 +50,16 @@ dev = [
     "mkdocs-material>=9.7.6",
     "mkdocs-mermaid2-plugin>=1.2.3",
     "mkdocstrings[python]>=1.0.4",
-    "pip-audit>=2.10.0",
-    "prek>=0.4.4",
-    "pyrig",
-    "pyrig-codecov>=1.0.6",
-    "pytest>=9.0.3",
+    "pip-audit>=2.10.1",
+    "prek>=0.4.6",
+    "pyrig>=15.64.0",
+    "pyrig-codecov>=1.23.0",
+    "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
-    "ruff>=0.15.16",
-    "rumdl>=0.2.8",
-    "ty>=0.0.44",
-    "typos>=1.47.2",
+    "ruff>=0.15.20",
+    "rumdl>=0.2.27",
+    "ty>=0.0.56",
+    "typos>=1.48.0",
 ]
 
 [build-system]
