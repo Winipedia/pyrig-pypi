@@ -31,7 +31,7 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
             Dict mapping the derived job ID to its configuration.
         """
         return self.job(
-            job_func=self.job_package,
+            self.job_package,
             steps=self.steps_package(),
         )
 
@@ -65,7 +65,7 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
             Step that runs `uv build`.
         """
         return self.step(
-            step_func=self.step_build_package,
+            self.step_build_package,
             run=str(PackageManager.I.build_args()),
             step=step,
         )
@@ -87,7 +87,7 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
             Step that publishes to PyPI using `PYPI_TOKEN`.
         """
         return self.step(
-            step_func=self.step_publish_package,
+            self.step_publish_package,
             run=str(PackageManager.I.publish_args(token=self.insert_pypi_token())),
             step=step,
         )
