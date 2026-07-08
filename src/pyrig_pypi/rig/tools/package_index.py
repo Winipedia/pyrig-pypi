@@ -11,9 +11,9 @@ class PackageIndex(Tool):
     PyPI page, and names the CI secret used to authenticate PyPI uploads.
     """
 
-    def name(self) -> str:
-        """Return `"pypi"`."""
-        return "pypi"
+    def dev_dependencies(self) -> tuple[str, ...]:
+        """Return an empty tuple; `pypi` is not an installable dev dependency."""
+        return ()
 
     def group(self) -> str:
         """Return `Group.PROJECT_INFO`."""
@@ -29,9 +29,9 @@ class PackageIndex(Tool):
         repo = PackageManager.I.project_name()
         return f"https://pypi.org/project/{repo}"
 
-    def dev_dependencies(self) -> tuple[str, ...]:
-        """Return an empty tuple; `pypi` is not an installable dev dependency."""
-        return ()
+    def name(self) -> str:
+        """Return `"pypi"`."""
+        return "pypi"
 
     def access_token_key(self) -> str:
         """Return `"PYPI_TOKEN"`, the env var name for the PyPI access token."""
