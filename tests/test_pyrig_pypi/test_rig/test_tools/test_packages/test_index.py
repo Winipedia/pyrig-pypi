@@ -1,6 +1,6 @@
 """Test module."""
 
-from pyrig_pypi.rig.tools.package_index import PackageIndex
+from pyrig_pypi.rig.tools.packages.index import PackageIndex
 
 
 class TestPackageIndex:

@@ -2,6 +2,7 @@
 
 from typing import Any
 
+from pyrig.core.iterate import dict_insert_key
 from pyrig.rig.configs.pyproject import (
     PyprojectConfigFile as BasePyprojectConfigFile,
 )
@@ -18,12 +19,25 @@ class PyprojectConfigFile(BasePyprojectConfigFile):
             The configuration dict, with the `project` table augmented.
         """
         configs = super()._configs()
-        project: dict[str, Any] = configs["project"]
-        project["classifiers"] = self.make_classifiers()
-        project["keywords"] = self.make_keywords()
+        project = configs["project"]
+        keys = list(project.keys())
+        index = keys.index("dependencies")
+
+        dict_insert_key(
+            project,
+            index=index,
+            key="classifiers",
+            value=sorted(self.classifiers_configs()),
+        )
+        dict_insert_key(
+            project,
+            index=index,
+            key="keywords",
+            value=sorted(self.keywords_configs()),
+        )
         return configs
 
-    def make_classifiers(self) -> list[str]:
+    def classifiers_configs(self) -> list[str]:
         """Build the PyPI trove classifiers for the project.
 
         Includes a `Programming Language :: Python :: X.Y` classifier for every
@@ -34,18 +48,16 @@ class PyprojectConfigFile(BasePyprojectConfigFile):
             Trove classifier strings for the `project.classifiers` field.
         """
         return [
-            "Programming Language :: Python",
-            "Programming Language :: Python :: 3",
+            "Operating System :: OS Independent",
             "Programming Language :: Python :: 3 :: Only",
             *(
                 f"Programming Language :: Python :: {v.major}.{v.minor}"
                 for v in self.supported_python_versions()
             ),
-            "Operating System :: OS Independent",
             "Typing :: Typed",
         ]
 
-    def make_keywords(self) -> list[str]:
+    def keywords_configs(self) -> list[str]:
         """Build the PyPI keywords for the project.
 
         Returns:

@@ -1,6 +1,6 @@
 """PyPI-specific override of the project's Python language badge."""
 
-from pyrig.rig.tools.package_manager import PackageManager
+from pyrig.rig.tools.packages.manager import PackageManager
 from pyrig.rig.tools.programming_language import (
     ProgrammingLanguage as BaseProgrammingLanguage,
 )

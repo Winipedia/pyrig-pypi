@@ -6,8 +6,8 @@ from pyrig.rig.configs.version_control.remote.workflows.deploy import (
     DeployWorkflowConfigFile as BaseDeployWorkflowConfigFile,
 )
 
-from pyrig_pypi.rig.tools.package_index import PackageIndex
-from pyrig_pypi.rig.tools.package_manager import PackageManager
+from pyrig_pypi.rig.tools.packages.index import PackageIndex
+from pyrig_pypi.rig.tools.packages.manager import PackageManager
 
 
 class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):

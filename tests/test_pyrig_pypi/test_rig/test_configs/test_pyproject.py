@@ -10,22 +10,26 @@ class TestPyprojectConfigFile:
         """Test method."""
         configs = PyprojectConfigFile.I.configs()
         project = configs["project"]
-        assert project["classifiers"] == PyprojectConfigFile.I.make_classifiers()
-        assert project["keywords"] == PyprojectConfigFile.I.make_keywords()
+        assert project["classifiers"] == PyprojectConfigFile.I.classifiers_configs()
+        assert project["keywords"] == PyprojectConfigFile.I.keywords_configs()
 
-    def test_make_classifiers(self) -> None:
+        keys = list(project.keys())
+        keywords_index = keys.index("keywords")
+        classifiers_index = keys.index("classifiers")
+        dependencies_index = keys.index("dependencies")
+        assert keywords_index == classifiers_index - 1 == dependencies_index - 2
+
+    def test_classifiers_configs(self) -> None:
         """Test method."""
-        assert PyprojectConfigFile.I.make_classifiers() == [
-            "Programming Language :: Python",
-            "Programming Language :: Python :: 3",
+        assert PyprojectConfigFile.I.classifiers_configs() == [
+            "Operating System :: OS Independent",
             "Programming Language :: Python :: 3 :: Only",
             "Programming Language :: Python :: 3.12",
             "Programming Language :: Python :: 3.13",
             "Programming Language :: Python :: 3.14",
-            "Operating System :: OS Independent",
             "Typing :: Typed",
         ]
 
-    def test_make_keywords(self) -> None:
+    def test_keywords_configs(self) -> None:
         """Test method."""
-        assert PyprojectConfigFile.I.make_keywords() == ["pyrig"]
+        assert PyprojectConfigFile.I.keywords_configs() == ["pyrig"]

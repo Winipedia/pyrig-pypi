@@ -1,7 +1,7 @@
 """PyPI index integration for the project's badges, links, and publish token."""
 
 from pyrig.rig.tools.base.tool import Group, Tool
-from pyrig.rig.tools.package_manager import PackageManager
+from pyrig.rig.tools.packages.manager import PackageManager
 
 
 class PackageIndex(Tool):

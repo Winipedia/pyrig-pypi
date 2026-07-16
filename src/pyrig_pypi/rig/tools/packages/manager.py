@@ -5,7 +5,7 @@ publish a package to the PyPI index.
 """
 
 from pyrig.core.subprocesses import Args
-from pyrig.rig.tools.package_manager import PackageManager as BasePackageManager
+from pyrig.rig.tools.packages.manager import PackageManager as BasePackageManager
 
 
 class PackageManager(BasePackageManager):
