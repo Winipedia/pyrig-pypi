@@ -41,7 +41,7 @@ class TestDeployWorkflowConfigFile:
         assert DeployWorkflowConfigFile.I.step_publish_package() == {
             "id": "publish-package",
             "name": "Publish Package",
-            "run": "uv publish --token ${{ secrets.PYPI_TOKEN }}",
+            "run": "uv publish --token=${{ secrets.PYPI_TOKEN }}",
         }
 
     def test_insert_pypi_token(self) -> None:

@@ -19,6 +19,6 @@ class PackageManager(BasePackageManager):
             token: PyPI authentication token.
 
         Returns:
-            Args for `uv publish --token <token> <args...>`.
+            Args for `uv publish --token=<token> <args...>`.
         """
-        return self.args("publish", "--token", token, *args)
+        return self.args("publish", f"--token={token}", *args)
