@@ -1,6 +1,6 @@
 [project]
 name = "pyrig-pypi"
-version = "3.18.4"
+version = "3.18.5"
 description = "A pyrig plugin for publishing Python packages to PyPI."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -103,6 +103,9 @@ testpaths = [
 docstring-code-format = true
 
 [tool.ruff.lint]
+ignore = [
+  "CPY001",
+]
 select = [
   "ALL",
 ]
