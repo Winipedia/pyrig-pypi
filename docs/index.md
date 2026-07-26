@@ -51,12 +51,13 @@ Drop-in [pyrig](https://github.com/Winipedia/pyrig) plugin that wires
 
 - Adds a build-and-publish-to-PyPI job to the deploy workflow that runs
   after a successful release.
-- Overrides the python badge with a PyPI badge that generates the pyversions badge
-  and adds an additional badge for the package's version on PyPI.
+- Replaces the static Python badge with one sourced from PyPI's pyversions
+  endpoint, and adds a badge for the package's current version on PyPI.
 
-No configuration required — installing the package as a development dependency
-is the whole setup. Then regenerate your pyrig configs as usual.
-The plugin's overrides are picked up automatically.
+No pyrig configuration to write by hand — installing the package as a
+development dependency and regenerating your pyrig configs as usual is enough
+for the plugin's overrides to be picked up automatically. Publishing itself
+still needs the one-time token setup below before the first release.
 
 ## Installation
 
