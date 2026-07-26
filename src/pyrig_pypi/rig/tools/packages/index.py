@@ -1,4 +1,4 @@
-"""PyPI index integration for the project's badges, links, and publish token."""
+"""PyPI index integration for the project's badges, links, and publish token name."""
 
 from pyrig.rig.tools.base.tool import Group, Tool
 from pyrig.rig.tools.packages.manager import PackageManager
@@ -7,8 +7,9 @@ from pyrig.rig.tools.packages.manager import PackageManager
 class PackageIndex(Tool):
     """PyPI badge and metadata for the project's package index listing.
 
-    Badges the project with its current PyPI version linking to the project's
-    PyPI page, and names the CI secret used to authenticate PyPI uploads.
+    Badges the project with its current PyPI version, links to the project's
+    PyPI page, and names the environment variable holding the PyPI publish
+    token.
     """
 
     def dev_dependencies(self) -> tuple[str, ...]:

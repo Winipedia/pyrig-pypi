@@ -1,1 +1,1 @@
-"""PyPI-specific overrides of pyrig's external CLI tool wrappers."""
+"""Tool wrappers this plugin adds or overrides for PyPI publishing."""

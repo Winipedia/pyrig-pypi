@@ -77,8 +77,8 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
     ) -> dict[str, Any]:
         """Build a step that publishes the built distributions to PyPI.
 
-        Runs `uv publish` authenticated with the `PYPI_TOKEN` repository secret,
-        injected as the `${{ secrets.PYPI_TOKEN }}` expression.
+        Runs `uv publish` authenticated with the `PYPI_TOKEN` secret, injected
+        as the `${{ secrets.PYPI_TOKEN }}` expression.
 
         Args:
             step: Additional keys to merge into the step configuration.
