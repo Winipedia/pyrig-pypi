@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from pyrig.core.iterate import dict_insert_key
+from pyrig.core.iterate import dict_insert
 from pyrig.rig.configs.pyproject import (
     PyprojectConfigFile as BasePyprojectConfigFile,
 )
@@ -23,13 +23,13 @@ class PyprojectConfigFile(BasePyprojectConfigFile):
         keys = list(project.keys())
         index = keys.index("dependencies")
 
-        dict_insert_key(
+        dict_insert(
             project,
             index=index,
             key="classifiers",
             value=sorted(self.classifiers_configs()),
         )
-        dict_insert_key(
+        dict_insert(
             project,
             index=index,
             key="keywords",
