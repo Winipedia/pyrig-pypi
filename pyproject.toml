@@ -1,6 +1,6 @@
 [project]
 name = "pyrig-pypi"
-version = "3.18.16"
+version = "3.18.17"
 description = "A pyrig plugin for publishing Python packages to PyPI."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -9,10 +9,10 @@ license-files = [
   "LICENSE",
 ]
 authors = [
-  { name = "Winipedia" },
+  { name = "Winipedia", email = "winipedia@gmx.de" },
 ]
 maintainers = [
-  { name = "Winipedia" },
+  { name = "Winipedia", email = "winipedia@gmx.de" },
 ]
 keywords = [
   "pyrig",
@@ -70,7 +70,6 @@ dev = [
 [build-system]
 requires = [
   "uv-build",
-  "uv_build",
 ]
 build-backend = "uv_build"
 
