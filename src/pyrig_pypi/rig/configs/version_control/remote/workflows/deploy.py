@@ -48,18 +48,11 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
             self.step_publish_package(),
         ]
 
-    def step_build_package(
-        self,
-        *,
-        step: dict[str, Any] | None = None,
-    ) -> dict[str, Any]:
+    def step_build_package(self) -> dict[str, Any]:
         """Build a step that packages the project into distributable artifacts.
 
         Runs `uv build` to produce wheel and source distributions in the
         `dist/` directory.
-
-        Args:
-            step: Additional keys to merge into the step configuration.
 
         Returns:
             Step that runs `uv build`.
@@ -67,21 +60,13 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
         return self.step(
             self.step_build_package,
             run=str(PackageManager.I.build_args()),
-            step=step,
         )
 
-    def step_publish_package(
-        self,
-        *,
-        step: dict[str, Any] | None = None,
-    ) -> dict[str, Any]:
+    def step_publish_package(self) -> dict[str, Any]:
         """Build a step that publishes the built distributions to PyPI.
 
         Runs `uv publish` authenticated with the `PYPI_TOKEN` secret, injected
         as the `${{ secrets.PYPI_TOKEN }}` expression.
-
-        Args:
-            step: Additional keys to merge into the step configuration.
 
         Returns:
             Step that publishes to PyPI using `PYPI_TOKEN`.
@@ -89,7 +74,6 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
         return self.step(
             self.step_publish_package,
             run=str(PackageManager.I.publish_args(token=self.insert_pypi_token())),
-            step=step,
         )
 
     def insert_pypi_token(self) -> str:
