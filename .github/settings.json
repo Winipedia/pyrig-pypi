@@ -2,6 +2,7 @@
   "repository": {
     "name": "pyrig-pypi",
     "description": "A pyrig plugin for publishing Python packages to PyPI.",
+    "homepage": "https://Winipedia.github.io/pyrig-pypi",
     "default_branch": "main",
     "delete_branch_on_merge": true,
     "allow_update_branch": true,
