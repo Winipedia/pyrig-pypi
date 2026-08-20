@@ -90,6 +90,10 @@ The plugin subclasses some pyrig base classes:
 - `PackageManager` to add the args for publishing to PyPI.
 - `PyprojectConfigFile` to add PyPI trove classifiers and keywords to the
   project metadata.
+- `RepositorySettingsConfigFile` to mirror the project's PyPI keywords as
+  GitHub topics in `.github/settings.json`.
+- `ConfigureRepositoryConfigFile` to sync those topics to the repository via
+  the GitHub API in `.github/configure.sh`.
 
 And adds its own tool class:
 

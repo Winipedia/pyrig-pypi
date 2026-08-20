@@ -759,7 +759,7 @@ wheels = [
 
 [[package]]
 name = "pyrig-pypi"
-version = "3.18.44"
+version = "3.19.0"
 source = { editable = "." }
 dependencies = [
     { name = "pyrig" },

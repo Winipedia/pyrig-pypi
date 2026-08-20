@@ -57,6 +57,7 @@ your package to PyPI automatically as part of your CI/CD pipeline.
   badge.
 - **PyPI metadata** — trove classifiers and keywords in `pyproject.toml` for
   discoverability.
+- **GitHub topics** — mirrors the project's PyPI keywords as GitHub topics.
 
 ## Usage
 
