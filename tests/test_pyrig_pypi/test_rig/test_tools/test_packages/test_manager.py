@@ -8,5 +8,10 @@ class TestPackageManager:
 
     def test_publish_args(self) -> None:
         """Test method."""
-        result = PackageManager.I.publish_args(token="my-token")  # noqa: S106  # nosec B106
-        assert result == ("uv", "publish", "--token=my-token")
+        result = PackageManager.I.publish_args()
+        assert result == ("uv", "publish")
+
+    def test_published_trusted_args(self) -> None:
+        """Test method."""
+        result = PackageManager.I.published_trusted_args()
+        assert result == ("uv", "publish", "--trusted-publishing=always")

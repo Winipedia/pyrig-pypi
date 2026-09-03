@@ -6,7 +6,6 @@ from pyrig.rig.configs.version_control.remote.workflows.deploy import (
     DeployWorkflowConfigFile as BaseDeployWorkflowConfigFile,
 )
 
-from pyrig_pypi.rig.tools.packages.index import PackageIndex
 from pyrig_pypi.rig.tools.packages.manager import PackageManager
 
 
@@ -32,7 +31,10 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
         """
         return self.job(
             self.job_package,
-            permissions=self.permission_contents(),
+            permissions={
+                **self.permission_contents(),
+                **self.permission_id_token(write=True),
+            },
             steps=self.steps_package(),
         )
 
@@ -66,29 +68,12 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
     def step_publish_package(self) -> dict[str, Any]:
         """Build a step that publishes the built distributions to PyPI.
 
-        Runs `uv publish` authenticated with the `PYPI_TOKEN` secret, injected
-        as the `${{ secrets.PYPI_TOKEN }}` expression.
+        Runs `uv publish` using GitHub Actions OIDC trusted publishing.
 
         Returns:
-            Step that publishes to PyPI using `PYPI_TOKEN`.
+            Step that publishes to PyPI using trusted publishing.
         """
         return self.step(
             self.step_publish_package,
-            run=str(PackageManager.I.publish_args(token=self.insert_pypi_token())),
+            run=str(PackageManager.I.published_trusted_args()),
         )
-
-    def insert_pypi_token(self) -> str:
-        """Return the `${{ secrets.PYPI_TOKEN }}` expression.
-
-        Returns:
-            GitHub Actions expression for the `PYPI_TOKEN` secret.
-        """
-        return self.insert_expression(self.pypi_token_var())
-
-    def pypi_token_var(self) -> str:
-        """Return the raw secrets expression for `PYPI_TOKEN`.
-
-        Returns:
-            The `"secrets.PYPI_TOKEN"` expression string.
-        """
-        return self.secrets_var(PackageIndex.I.access_token_key())

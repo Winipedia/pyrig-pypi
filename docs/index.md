@@ -57,7 +57,7 @@ Drop-in [pyrig](https://github.com/Winipedia/pyrig) plugin that wires
 No pyrig configuration to write by hand — installing the package as a
 development dependency and regenerating your pyrig configs as usual is enough
 for the plugin's overrides to be picked up automatically. Publishing itself
-still needs the one-time token setup below before the first release.
+needs a one-time trusted publisher setup on PyPI before the first release.
 
 ## Installation
 
@@ -68,18 +68,47 @@ uv run pyrig sync
 
 ## Setup
 
-One-time setup before the first publish:
+One-time setup before the first publish. Do not create a PyPI API token.
 
-1. Create account at [pypi.org](https://pypi.org)
-2. Create an API token
-3. Scope: "Entire account" (recommended change to specific project after first
-   publish)
-4. Click "Add token"
-5. **Copy token immediately** (you won't see it again)
-6. Add token to your repository secrets as `PYPI_TOKEN`
+### New PyPI project
 
-After that, the deploy workflow will automatically upload your package to PyPI
-after every release.
+If the project does not exist on PyPI yet, configure a pending trusted
+publisher from your account:
+
+1. Sign in at [pypi.org](https://pypi.org)
+2. Open **Your account** and select **Publishing** in the account sidebar
+3. Under the **GitHub** section, add a pending publisher
+4. Enter the PyPI project name exactly as it appears in `pyproject.toml`
+5. Enter the GitHub organization or user, repository name, and workflow
+  filename: `deploy.yml`
+6. Click **Add**
+
+The pending publisher creates the project when the workflow publishes its first
+release, and then becomes a regular trusted publisher.
+
+### Existing PyPI project
+
+If the project already exists on PyPI, add the trusted publisher to that
+project:
+
+1. Open [Your projects](https://pypi.org/manage/projects/)
+2. Select **Manage** for the project
+3. Select **Publishing** in the project's sidebar
+4. Under the **GitHub** section, add a publisher
+5. Enter the GitHub organization or user, repository name, and workflow
+  filename: `deploy.yml`
+6. Click **Add**
+
+For both paths, the values must match the publishing workflow exactly. The
+package job already has the required `id-token: write` permission in the
+generated workflow. The deploy workflow will then obtain a short-lived OIDC
+credential and upload the package without a PyPI token or repository secret.
+
+See PyPI's guides for
+[new projects](https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/)
+and
+[existing projects](https://docs.pypi.org/trusted-publishers/adding-a-publisher/)
+for the current UI and publisher form.
 
 ## How it works
 

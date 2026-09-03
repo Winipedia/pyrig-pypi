@@ -66,8 +66,9 @@ uv add pyrig-pypi --dev
 uv run pyrig sync
 ```
 
-Publishing from CI requires a `PYPI_TOKEN` repository secret — see the
-documentation for the one-time setup.
+Publishing from CI uses PyPI trusted publishing — see the
+[documentation](https://Winipedia.github.io/pyrig-pypi/#setup) for the
+one-time setup.
 
 ## Documentation
 

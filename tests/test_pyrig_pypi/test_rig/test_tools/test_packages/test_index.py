@@ -29,8 +29,3 @@ class TestPackageIndex:
     def test_dev_dependencies(self) -> None:
         """Test method."""
         assert PackageIndex().dev_dependencies() == ()
-
-    def test_access_token_key(self) -> None:
-        """Test method."""
-        assert PackageIndex().access_token_key() == "PYPI_TOKEN"
-        assert PackageIndex.I.access_token_key() == "PYPI_TOKEN"

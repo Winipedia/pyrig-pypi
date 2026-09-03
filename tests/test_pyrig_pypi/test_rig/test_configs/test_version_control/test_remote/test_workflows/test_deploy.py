@@ -20,7 +20,10 @@ class TestDeployWorkflowConfigFile:
         job = DeployWorkflowConfigFile.I.job_package()
         assert isinstance(job, dict)
         assert len(job) == 1
-        assert job["package"]["permissions"] == {"contents": "read"}
+        assert job["package"]["permissions"] == {
+            "contents": "read",
+            "id-token": "write",
+        }
 
     def test_steps_package(self) -> None:
         """Test method."""
@@ -42,16 +45,5 @@ class TestDeployWorkflowConfigFile:
         assert DeployWorkflowConfigFile.I.step_publish_package() == {
             "id": "publish-package",
             "name": "Publish Package",
-            "run": "uv publish --token=${{ secrets.PYPI_TOKEN }}",
+            "run": "uv publish --trusted-publishing=always",
         }
-
-    def test_insert_pypi_token(self) -> None:
-        """Test method."""
-        assert (
-            DeployWorkflowConfigFile.I.insert_pypi_token()
-            == "${{ secrets.PYPI_TOKEN }}"
-        )
-
-    def test_pypi_token_var(self) -> None:
-        """Test method."""
-        assert DeployWorkflowConfigFile.I.pypi_token_var() == "secrets.PYPI_TOKEN"
