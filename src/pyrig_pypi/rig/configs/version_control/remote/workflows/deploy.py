@@ -32,6 +32,7 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
         """
         return self.job(
             self.job_package,
+            permissions=self.permission_contents(),
             steps=self.steps_package(),
         )
 

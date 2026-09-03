@@ -20,6 +20,7 @@ class TestDeployWorkflowConfigFile:
         job = DeployWorkflowConfigFile.I.job_package()
         assert isinstance(job, dict)
         assert len(job) == 1
+        assert job["package"]["permissions"] == {"contents": "read"}
 
     def test_steps_package(self) -> None:
         """Test method."""
