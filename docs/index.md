@@ -70,39 +70,35 @@ uv run pyrig sync
 
 One-time setup before the first publish. Do not create a PyPI API token.
 
-### New PyPI project
+1. Sign in at [pypi.org](https://pypi.org).
+2. Open the publisher form, depending on whether the project already exists
+  on PyPI:
+    - **New project** — open **Your account**, select **Publishing** in the
+      account sidebar, and add a *pending* publisher under the **GitHub**
+      section.
+    - **Existing project** — open
+      [Your projects](https://pypi.org/manage/projects/), select **Manage**
+      for the project, select **Publishing** in the project's sidebar, and
+      add a publisher under the **GitHub** section.
+3. Fill in the publisher form:
+    - **PyPI Project Name** — exactly as it appears in `pyproject.toml`
+      (new projects only - e.g., `my-package`).
+    - **Owner** — the GitHub organization or user (e.g., `YourUsername`).
+    - **Repository name** — the repository name (e.g., `my-package`).
+    - **Workflow name** — `deploy.yml`.
+    - **Environment name** — `package`, matching the deploy workflow's
+      `package` job environment.
+4. Click **Add**.
 
-If the project does not exist on PyPI yet, configure a pending trusted
-publisher from your account:
+For a new project, the pending publisher creates the project when the
+workflow publishes its first release, and then becomes a regular trusted
+publisher.
 
-1. Sign in at [pypi.org](https://pypi.org)
-2. Open **Your account** and select **Publishing** in the account sidebar
-3. Under the **GitHub** section, add a pending publisher
-4. Enter the PyPI project name exactly as it appears in `pyproject.toml`
-5. Enter the GitHub organization or user, repository name, and workflow
-  filename: `deploy.yml`
-6. Click **Add**
-
-The pending publisher creates the project when the workflow publishes its first
-release, and then becomes a regular trusted publisher.
-
-### Existing PyPI project
-
-If the project already exists on PyPI, add the trusted publisher to that
-project:
-
-1. Open [Your projects](https://pypi.org/manage/projects/)
-2. Select **Manage** for the project
-3. Select **Publishing** in the project's sidebar
-4. Under the **GitHub** section, add a publisher
-5. Enter the GitHub organization or user, repository name, and workflow
-  filename: `deploy.yml`
-6. Click **Add**
-
-For both paths, the values must match the publishing workflow exactly. The
-package job already has the required `id-token: write` permission in the
-generated workflow. The deploy workflow will then obtain a short-lived OIDC
-credential and upload the package without a PyPI token or repository secret.
+The values must match the publishing workflow exactly. The package job
+already has the required `id-token: write` permission and runs under a
+`package` GitHub Actions environment in the generated workflow. The deploy
+workflow will then obtain a short-lived OIDC credential scoped to that
+environment and upload the package without a PyPI token or repository secret.
 
 See PyPI's guides for
 [new projects](https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/)
