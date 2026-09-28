@@ -21,17 +21,17 @@ class PyprojectConfigFile(BasePyprojectConfigFile):
         configs = super()._configs()
         project = configs["project"]
         keys = list(project.keys())
-        index = keys.index("dependencies")
+        dependencies_index = keys.index("dependencies")
 
         dict_insert(
             project,
-            index=index,
+            index=dependencies_index,
             key="classifiers",
             value=sorted(self.classifiers_configs()),
         )
         dict_insert(
             project,
-            index=index,
+            index=dependencies_index,
             key="keywords",
             value=sorted(self.keywords_configs()),
         )
