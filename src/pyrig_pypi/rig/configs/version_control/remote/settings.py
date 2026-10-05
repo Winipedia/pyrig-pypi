@@ -12,7 +12,7 @@ from pyrig_pypi.rig.configs.pyproject import PyprojectConfigFile
 class RepositorySettingsConfigFile(BaseRepositorySettingsConfigFile):
     """Repository settings config that mirrors PyPI keywords as GitHub topics."""
 
-    def _configs(self) -> dict[str, Any]:
+    def settings(self) -> dict[str, Any]:
         """Add the `topics` key, mirroring the project's PyPI keywords.
 
         Returns:
@@ -20,7 +20,7 @@ class RepositorySettingsConfigFile(BaseRepositorySettingsConfigFile):
             alongside the base `repository` and `rulesets` keys.
         """
         return {
-            **super()._configs(),
+            **super().settings(),
             self.topics_key(): sorted(self.topics_configs()),
         }
 
