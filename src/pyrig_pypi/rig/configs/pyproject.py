@@ -6,11 +6,10 @@ from pyrig.core.iterate import dict_insert
 from pyrig.rig.configs.pyproject import (
     PyprojectConfigFile as BasePyprojectConfigFile,
 )
-from pyrig.rig.tools.pyrigger import Pyrigger
 
 
 class PyprojectConfigFile(BasePyprojectConfigFile):
-    """Pyproject config that adds PyPI trove classifiers and keywords."""
+    """Pyproject config that adds PyPI trove classifiers and a keywords field."""
 
     def _configs(self) -> dict[str, Any]:
         """Add `classifiers` and `keywords` to the `project` table.
@@ -58,10 +57,18 @@ class PyprojectConfigFile(BasePyprojectConfigFile):
         ]
 
     def keywords_configs(self) -> list[str]:
-        """Build the PyPI keywords for the project.
+        """Build the default PyPI keywords for the project.
 
         Returns:
-            A single-element list containing the pyrig executable name, to
-            aid discoverability of the pyrig ecosystem in PyPI search.
+            An empty list; override to scaffold default keywords.
         """
-        return [Pyrigger.I.name()]
+        return []
+
+    def keywords(self) -> list[str]:
+        """Retrieve the `keywords` from the `project` table.
+
+        Returns:
+            The keywords currently set in `pyproject.toml`, or an empty list if
+            none are set.
+        """
+        return self.safe_load().get("project", {}).get("keywords", [])
