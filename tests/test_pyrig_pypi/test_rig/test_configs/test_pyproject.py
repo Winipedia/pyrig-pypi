@@ -32,7 +32,8 @@ class TestPyprojectConfigFile:
 
     def test_keywords_configs(self) -> None:
         """Test method."""
-        assert PyprojectConfigFile.I.keywords_configs() == []
+        assert PyprojectConfigFile().keywords_configs() == []
+        assert PyprojectConfigFile.I.keywords_configs() == ["pyrig"]
 
     def test_keywords(self) -> None:
         """Test method."""
