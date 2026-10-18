@@ -36,10 +36,10 @@ class ConfigureRepositoryConfigFile(BaseConfigureRepositoryConfigFile):
         endpoint = f"repos/${{{self.repo_variable()}}}/topics"
         extract = f"jq '{{names: .{topics_key}}}' {settings_path}"
         api_call = f'gh api "{endpoint}" --method=PUT --input=-'
-        return f"""{self.apply_topics_function()}() {{
+        return f"""{self.apply_topics_func()}() {{
   {extract} | {api_call}
 }}"""
 
-    def apply_topics_function(self) -> str:
+    def apply_topics_func(self) -> str:
         """Return `"topics"`, the function name."""
         return "topics"

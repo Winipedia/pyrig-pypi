@@ -22,6 +22,6 @@ class TestConfigureRepositoryConfigFile:
         assert "--method=PUT" in script
         assert "{names: .topics}" in script
 
-    def test_apply_topics_function(self) -> None:
+    def test_apply_topics_func(self) -> None:
         """Test method."""
-        assert ConfigureRepositoryConfigFile.I.apply_topics_function() == "topics"
+        assert ConfigureRepositoryConfigFile.I.apply_topics_func() == "topics"
