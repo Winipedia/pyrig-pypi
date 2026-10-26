@@ -18,7 +18,7 @@ class TestConfigureRepositoryConfigFile:
         script = ConfigureRepositoryConfigFile.I.apply_topics_script()
         assert script.startswith("topics() {")
         assert "gh api" in script
-        assert "repos/${repo}/topics" in script
+        assert "repos/${GITHUB_REPOSITORY}/topics" in script
         assert "--method=PUT" in script
         assert "{names: .topics}" in script
 
