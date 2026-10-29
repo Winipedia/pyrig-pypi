@@ -8,13 +8,6 @@ from pyrig_pypi.rig.configs.version_control.remote.workflows.deploy import (
 class TestDeployWorkflowConfigFile:
     """Test class."""
 
-    def test_jobs(self) -> None:
-        """Test method."""
-        jobs = DeployWorkflowConfigFile.I.jobs()
-        assert isinstance(jobs, dict)
-        assert "package" in jobs
-        assert len(jobs) >= 1
-
     def test_job_package(self) -> None:
         """Test method."""
         job = DeployWorkflowConfigFile.I.job_package()
@@ -25,12 +18,12 @@ class TestDeployWorkflowConfigFile:
             "id-token": "write",
         }
 
-    def test_steps_package(self) -> None:
+    def test_jobs(self) -> None:
         """Test method."""
-        steps = DeployWorkflowConfigFile.I.steps_package()
-        assert isinstance(steps, list)
-        names = {step["name"] for step in steps}
-        assert {"Build Package", "Publish Package"}.issubset(names)
+        jobs = DeployWorkflowConfigFile.I.jobs()
+        assert isinstance(jobs, dict)
+        assert "package" in jobs
+        assert len(jobs) >= 1
 
     def test_step_build_package(self) -> None:
         """Test method."""
@@ -47,3 +40,10 @@ class TestDeployWorkflowConfigFile:
             "name": "Publish Package",
             "run": "uv publish --trusted-publishing=always",
         }
+
+    def test_steps_package(self) -> None:
+        """Test method."""
+        steps = DeployWorkflowConfigFile.I.steps_package()
+        assert isinstance(steps, list)
+        names = {step["name"] for step in steps}
+        assert {"Build Package", "Publish Package"}.issubset(names)

@@ -1,6 +1,6 @@
 """PyPI-specific extensions to the project's `pyproject.toml` configuration."""
 
-from typing import Any
+from typing import Any, override
 
 from pyrig.core.iterate import dict_insert
 from pyrig.rig.configs.pyproject import (
@@ -11,6 +11,7 @@ from pyrig.rig.configs.pyproject import (
 class PyprojectConfigFile(BasePyprojectConfigFile):
     """Pyproject config that adds PyPI trove classifiers and a keywords field."""
 
+    @override
     def _configs(self) -> dict[str, Any]:
         """Add `classifiers` and `keywords` to the `project` table.
 
@@ -35,6 +36,15 @@ class PyprojectConfigFile(BasePyprojectConfigFile):
             value=sorted(self.keywords_configs()),
         )
         return configs
+
+    def keywords(self) -> list[str]:
+        """Retrieve the `keywords` from the `project` table.
+
+        Returns:
+            The keywords currently set in `pyproject.toml`, or an empty list if
+            none are set.
+        """
+        return self.safe_load().get("project", {}).get("keywords", [])
 
     def classifiers_configs(self) -> list[str]:
         """Build the PyPI trove classifiers for the project.
@@ -63,12 +73,3 @@ class PyprojectConfigFile(BasePyprojectConfigFile):
             An empty list; override to scaffold default keywords.
         """
         return []
-
-    def keywords(self) -> list[str]:
-        """Retrieve the `keywords` from the `project` table.
-
-        Returns:
-            The keywords currently set in `pyproject.toml`, or an empty list if
-            none are set.
-        """
-        return self.safe_load().get("project", {}).get("keywords", [])

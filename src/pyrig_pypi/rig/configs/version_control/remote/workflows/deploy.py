@@ -1,6 +1,6 @@
 """Deploy workflow extended to build the package and publish it to PyPI."""
 
-from typing import Any
+from typing import Any, override
 
 from pyrig.rig.configs.version_control.remote.workflows.deploy import (
     DeployWorkflowConfigFile as BaseDeployWorkflowConfigFile,
@@ -12,6 +12,7 @@ from pyrig_pypi.rig.tools.packages.manager import PackageManager
 class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
     """Deploy workflow that also builds the package and publishes it to PyPI."""
 
+    @override
     def jobs(self) -> dict[str, Any]:
         """Build the workflow's jobs, adding the package build-and-publish job.
 

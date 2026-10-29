@@ -1,7 +1,7 @@
 """PyPI-specific extension of GitHub repository settings."""
 
 from collections.abc import Iterable
-from typing import Any
+from typing import Any, override
 
 from pyrig.rig.configs.base.config_file import ConfigFile
 from pyrig.rig.configs.version_control.remote.settings import (
@@ -14,6 +14,7 @@ from pyrig_pypi.rig.configs.pyproject import PyprojectConfigFile
 class RepositorySettingsConfigFile(BaseRepositorySettingsConfigFile):
     """Repository settings config that mirrors PyPI keywords as GitHub topics."""
 
+    @override
     def dependencies(self) -> Iterable[type[ConfigFile[Any]]]:
         """Return the list of configuration file classes this config depends on.
 
@@ -25,6 +26,7 @@ class RepositorySettingsConfigFile(BaseRepositorySettingsConfigFile):
         """
         return (*super().dependencies(), PyprojectConfigFile)
 
+    @override
     def settings(self) -> dict[str, Any]:
         """Add the `topics` key, mirroring the project's PyPI keywords.
 

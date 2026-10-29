@@ -9,6 +9,10 @@ from pyrig_pypi.rig.configs.version_control.remote.settings import (
 class TestRepositorySettingsConfigFile:
     """Test class."""
 
+    def test_dependencies(self) -> None:
+        """Test method."""
+        assert RepositorySettingsConfigFile.I.dependencies() == (PyprojectConfigFile,)
+
     def test_settings(self) -> None:
         """Test method."""
         configs = RepositorySettingsConfigFile.I.settings()
@@ -26,7 +30,3 @@ class TestRepositorySettingsConfigFile:
     def test_topics_key(self) -> None:
         """Test method."""
         assert RepositorySettingsConfigFile.I.topics_key() == "topics"
-
-    def test_dependencies(self) -> None:
-        """Test method."""
-        assert RepositorySettingsConfigFile.I.dependencies() == (PyprojectConfigFile,)

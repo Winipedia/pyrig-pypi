@@ -1,5 +1,7 @@
 """PyPI-specific extension of `.github/configure.sh`."""
 
+from typing import override
+
 from pyrig.rig.configs.version_control.remote.configure import (
     ConfigureRepositoryConfigFile as BaseConfigureRepositoryConfigFile,
 )
@@ -12,6 +14,7 @@ from pyrig_pypi.rig.configs.version_control.remote.settings import (
 class ConfigureRepositoryConfigFile(BaseConfigureRepositoryConfigFile):
     """Configure script extended to sync the repository's GitHub topics."""
 
+    @override
     def scripts(self) -> tuple[str, ...]:
         """Add the `topics` function to the scripts this file defines.
 

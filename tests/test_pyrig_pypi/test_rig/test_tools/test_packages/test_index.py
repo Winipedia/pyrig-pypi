@@ -6,9 +6,9 @@ from pyrig_pypi.rig.tools.packages.index import PackageIndex
 class TestPackageIndex:
     """Test class."""
 
-    def test_name(self) -> None:
+    def test_dev_dependencies(self) -> None:
         """Test method."""
-        assert PackageIndex().name() == "pypi"
+        assert PackageIndex().dev_dependencies() == ()
 
     def test_group(self) -> None:
         """Test method."""
@@ -26,6 +26,6 @@ class TestPackageIndex:
         assert PackageIndex().link_url() == "https://pypi.org/project/pyrig-pypi"
         assert PackageIndex.I.link_url() == "https://pypi.org/project/pyrig-pypi"
 
-    def test_dev_dependencies(self) -> None:
+    def test_name(self) -> None:
         """Test method."""
-        assert PackageIndex().dev_dependencies() == ()
+        assert PackageIndex().name() == "pypi"

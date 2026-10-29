@@ -8,10 +8,9 @@ from pyrig_pypi.rig.configs.version_control.remote.configure import (
 class TestConfigureRepositoryConfigFile:
     """Test class."""
 
-    def test_scripts(self) -> None:
+    def test_apply_topics_func(self) -> None:
         """Test method."""
-        scripts = ConfigureRepositoryConfigFile.I.scripts()
-        assert ConfigureRepositoryConfigFile.I.apply_topics_script() in scripts
+        assert ConfigureRepositoryConfigFile.I.apply_topics_func() == "topics"
 
     def test_apply_topics_script(self) -> None:
         """Test method."""
@@ -22,6 +21,7 @@ class TestConfigureRepositoryConfigFile:
         assert "--method=PUT" in script
         assert "{names: .topics}" in script
 
-    def test_apply_topics_func(self) -> None:
+    def test_scripts(self) -> None:
         """Test method."""
-        assert ConfigureRepositoryConfigFile.I.apply_topics_func() == "topics"
+        scripts = ConfigureRepositoryConfigFile.I.scripts()
+        assert ConfigureRepositoryConfigFile.I.apply_topics_script() in scripts

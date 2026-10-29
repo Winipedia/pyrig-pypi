@@ -31,11 +31,11 @@ class TestPyprojectConfigFile:
             "Typing :: Typed",
         ]
 
+    def test_keywords(self) -> None:
+        """Test method."""
+        assert PyprojectConfigFile.I.keywords() == ["pyrig"]
+
     def test_keywords_configs(self) -> None:
         """Test method."""
         assert PyprojectConfigFile().keywords_configs() == []
         assert PyprojectConfigFile.I.keywords_configs() == ["pyrig"]
-
-    def test_keywords(self) -> None:
-        """Test method."""
-        assert PyprojectConfigFile.I.keywords() == ["pyrig"]
