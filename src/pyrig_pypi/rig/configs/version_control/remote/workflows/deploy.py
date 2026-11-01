@@ -37,6 +37,7 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
                 **self.permission_id_token(write=True),
             },
             steps=self.steps_package(),
+            timeout_minutes=60,
         )
 
     def steps_package(self) -> list[dict[str, Any]]:
