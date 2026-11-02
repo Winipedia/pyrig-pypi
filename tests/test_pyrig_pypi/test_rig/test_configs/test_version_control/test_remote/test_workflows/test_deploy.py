@@ -12,17 +12,25 @@ class TestDeployWorkflowConfigFile:
         """Test method."""
         job = DeployWorkflowConfigFile.I.job_package()
         assert isinstance(job, dict)
-        assert len(job) == 1
-        assert job["package"]["permissions"] == {
+        assert job["job_id"] == "package"
+        assert job["permissions"] == {
+            "contents": "read",
+            "id-token": "write",
+        }
+
+    def test_job_package_permissions(self) -> None:
+        """Test method."""
+        assert DeployWorkflowConfigFile.I.job_package_permissions() == {
             "contents": "read",
             "id-token": "write",
         }
 
     def test_jobs(self) -> None:
         """Test method."""
-        jobs = DeployWorkflowConfigFile.I.jobs()
-        assert isinstance(jobs, dict)
-        assert "package" in jobs
+        workflow = DeployWorkflowConfigFile.I
+        jobs = workflow.jobs()
+        assert isinstance(jobs, tuple)
+        assert workflow.job_package in jobs
         assert len(jobs) >= 1
 
     def test_step_build_package(self) -> None:

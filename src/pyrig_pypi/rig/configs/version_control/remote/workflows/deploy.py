@@ -1,5 +1,6 @@
 """Deploy workflow extended to build the package and publish it to PyPI."""
 
+from collections.abc import Callable
 from typing import Any, override
 
 from pyrig.rig.configs.version_control.remote.workflows.deploy import (
@@ -13,32 +14,43 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
     """Deploy workflow that also builds the package and publishes it to PyPI."""
 
     @override
-    def jobs(self) -> dict[str, Any]:
-        """Build the workflow's jobs, adding the package build-and-publish job.
+    def jobs(self) -> tuple[Callable[[], dict[str, Any]], ...]:
+        """Return the workflow's job builders, adding the package publish builder.
 
         Returns:
-            Dict mapping each job ID to its configuration.
+            Tuple of base job builders plus the package build-and-publish builder.
         """
-        return {
-            **super().jobs(),
-            **self.job_package(),
-        }
+        return (
+            *super().jobs(),
+            self.job_package,
+        )
 
     def job_package(self) -> dict[str, Any]:
         """Build the job that builds the package and publishes it to PyPI.
 
         Returns:
-            Dict mapping the derived job ID to its configuration.
+            Job configuration for building the package and publishing it to PyPI.
         """
         return self.job(
             self.job_package,
-            permissions={
-                **self.permission_contents(),
-                **self.permission_id_token(write=True),
-            },
+            permissions=self.job_package_permissions(),
             steps=self.steps_package(),
             timeout_minutes=60,
         )
+
+    def job_package_permissions(self) -> dict[str, Any]:
+        """Return the permissions for the package job.
+
+        Requests `contents: read` to check out the repository and
+        `id-token: write`, required for PyPI trusted publishing.
+
+        Returns:
+            Permissions mapping for the package job.
+        """
+        return {
+            **self.permission_contents(),
+            **self.permission_id_token(write=True),
+        }
 
     def steps_package(self) -> list[dict[str, Any]]:
         """Build the ordered steps for the package job.
