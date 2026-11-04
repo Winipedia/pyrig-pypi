@@ -56,8 +56,8 @@ your package to PyPI automatically as part of your CI/CD pipeline.
 
 ## What it adds
 
-- **Automatic publishing** — a build-and-publish step that uploads your package
-  to PyPI after a successful release.
+- **Automatic publishing** — separate package build and publish jobs that publish
+  your package to PyPI after a successful release.
 - **PyPI badges** — a package-version badge and a PyPI-driven Python versions
   badge.
 - **PyPI metadata** — trove classifiers and keywords in `pyproject.toml` for
