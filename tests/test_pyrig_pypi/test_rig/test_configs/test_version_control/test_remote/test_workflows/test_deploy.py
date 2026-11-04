@@ -114,3 +114,4 @@ class TestDeployWorkflowConfigFile:
             "Download Package Distributions",
             "Publish Package",
         ]
+        assert steps[0]["with"]["enable-cache"] == "false"

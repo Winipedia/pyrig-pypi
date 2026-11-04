@@ -4,7 +4,6 @@ from collections.abc import Callable
 from types import MethodType
 from typing import Any, override
 
-from pyrig.rig.configs.pyproject import PyprojectConfigFile
 from pyrig.rig.configs.version_control.remote.workflows.deploy import (
     DeployWorkflowConfigFile as BaseDeployWorkflowConfigFile,
 )
@@ -65,11 +64,10 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
         Returns:
             Package-manager setup, artifact download, and publish steps.
         """
-        python_version = str(
-            PyprojectConfigFile.I.latest_possible_python_version(level="minor"),
-        )
+        setup_package_manager = self.step_setup_package_manager()
+        setup_package_manager["with"]["enable-cache"] = "false"
         return [
-            self.step_setup_package_manager(python_version=python_version),
+            setup_package_manager,
             self.step_download_package_distributions(),
             self.step_publish_package(),
         ]
