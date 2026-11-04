@@ -33,6 +33,7 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
         """
         return self.job(
             self.job_package,
+            environment="package",
             permissions=self.job_package_permissions(),
             steps=self.steps_package(),
             timeout_minutes=60,
