@@ -50,7 +50,7 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
         """
         return (self.job_build_package,)
 
-    def job_publish_package_permissions(self) -> dict[str, Any]:
+    def job_publish_package_permissions(self) -> dict[str, str]:
         """Return the OIDC permission required for PyPI trusted publishing.
 
         Returns:
@@ -110,7 +110,7 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
             run=str(PackageManager.I.published_trusted_args()),
         )
 
-    def job_build_package_permissions(self) -> dict[str, Any]:
+    def job_build_package_permissions(self) -> dict[str, str]:
         """Return read-only repository permissions for building the package.
 
         Returns:
