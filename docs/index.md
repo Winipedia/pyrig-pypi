@@ -58,9 +58,9 @@
 Drop-in [pyrig](https://github.com/Winipedia/pyrig) plugin that wires
 [PyPI](https://pypi.org) into your project:
 
-- Adds separate package build and publish jobs to the deploy workflow. The
-  build job uploads distributions as an artifact, and the publish job downloads
-  and publishes the distributions to PyPI after a successful release.
+- Adds a reusable package workflow called by deploy. Its build job uploads
+  distributions as an artifact, and its publish job downloads and publishes
+  them to PyPI after a successful release.
 - Replaces the static Python badge with one sourced from PyPI's pyversions
   endpoint, and adds a badge for the package's current version on PyPI.
 
@@ -95,9 +95,9 @@ One-time setup before the first publish. Do not create a PyPI API token.
       (new projects only - e.g., `my-package`).
     - **Owner** — the GitHub organization or user (e.g., `YourUsername`).
     - **Repository name** — the repository name (e.g., `my-package`).
-    - **Workflow name** — `deploy.yml`.
-    - **Environment name** — `package`, matching the deploy workflow's
-      `publish-package` job environment.
+    - **Workflow name** — `package.yml`.
+    - **Environment name** — `package`, matching the package workflow's
+      `publish` job environment.
 4. Click **Add**.
 
 For a new project, the pending publisher creates the project when the
@@ -106,8 +106,8 @@ publisher.
 
 The values must match the publishing workflow exactly. The publish job has the
 required `id-token: write` permission and runs under a `package` GitHub Actions
-environment in the generated workflow. The deploy workflow will then obtain a
-short-lived OIDC credential scoped to that environment and upload the package
+environment in the package workflow. The publish job obtains a
+short-lived OIDC credential scoped to that environment and uploads the package
 without a PyPI token or repository secret.
 
 See PyPI's guides for
@@ -120,8 +120,7 @@ for the current UI and publisher form.
 
 The plugin subclasses some pyrig base classes:
 
-- `DeployWorkflowConfigFile` to build package distributions in a read-only job
-  and publish them in a separate OIDC-enabled job.
+- `DeployWorkflowConfigFile` to call the reusable package workflow.
 - `ProgrammingLanguage` to replace the python badge with a PyPI pyversions badge.
 - `PackageManager` to add the args for publishing to PyPI.
 - `PyprojectConfigFile` to add PyPI trove classifiers and keywords to the
@@ -131,8 +130,10 @@ The plugin subclasses some pyrig base classes:
 - `ConfigureRepositoryConfigFile` to sync those topics to the repository via
   the GitHub API in `.github/configure.sh`.
 
-And adds its own tool class:
+And adds its own config file and tool classes:
 
+- `PackageWorkflowConfigFile` to build package distributions in a read-only
+  job and publish them in a separate OIDC-enabled job.
 - `PackageIndex` to wrap PyPI information and add the PyPI version badge.
 
 ## API Reference

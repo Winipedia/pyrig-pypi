@@ -11,7 +11,7 @@ class TestPackageManager:
         result = PackageManager.I.publish_args()
         assert result == ("uv", "publish")
 
-    def test_published_trusted_args(self) -> None:
+    def test_publish_trusted_args(self) -> None:
         """Test method."""
-        result = PackageManager.I.published_trusted_args()
+        result = PackageManager.I.publish_trusted_args()
         assert result == ("uv", "publish", "--trusted-publishing=always")

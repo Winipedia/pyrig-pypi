@@ -11,7 +11,7 @@ from pyrig.rig.tools.packages.manager import PackageManager as BasePackageManage
 class PackageManager(BasePackageManager):
     """Package manager that adds PyPI publishing arguments to uv commands."""
 
-    def published_trusted_args(self, *args: str) -> Args:
+    def publish_trusted_args(self, *args: str) -> Args:
         """Construct `Args` for PyPI trusted publishing with uv.
 
         Args:
