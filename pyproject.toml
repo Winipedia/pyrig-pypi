@@ -1,6 +1,6 @@
 [project]
 name = "pyrig-pypi"
-version = "3.29.24"
+version = "3.29.25"
 description = "A pyrig plugin for publishing Python packages to PyPI."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -27,7 +27,7 @@ classifiers = [
   "Typing :: Typed",
 ]
 dependencies = [
-  "pyrig>=19.13.0",
+  "pyrig>=19.29.0",
 ]
 
 [project.urls]
