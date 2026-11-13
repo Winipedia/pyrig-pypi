@@ -28,12 +28,6 @@ class TestPackageWorkflowConfigFile:
         assert job["steps"] == workflow.steps_build()
         assert "needs" not in job
 
-    def test_job_build_permissions(self) -> None:
-        """Check the build requests read-only checkout access."""
-        assert PackageWorkflowConfigFile.I.job_build_permissions() == {
-            "contents": "read",
-        }
-
     def test_job_publish(self) -> None:
         """Check publish depends on the build and uses the package environment."""
         workflow = PackageWorkflowConfigFile.I
@@ -50,16 +44,22 @@ class TestPackageWorkflowConfigFile:
         workflow = PackageWorkflowConfigFile.I
         assert workflow.job_publish_needs() == (workflow.job_build,)
 
-    def test_job_publish_permissions(self) -> None:
-        """Check publish requests the OIDC permission."""
-        assert PackageWorkflowConfigFile.I.job_publish_permissions() == {
-            "id-token": "write",
-        }
-
     def test_jobs(self) -> None:
         """Check both package jobs are present."""
         workflow = PackageWorkflowConfigFile.I
         assert workflow.jobs() == (workflow.job_build, workflow.job_publish)
+
+    def test_permissions_job_build(self) -> None:
+        """Check the build requests read-only checkout access."""
+        assert PackageWorkflowConfigFile.I.permissions_job_build() == {
+            "contents": "read",
+        }
+
+    def test_permissions_job_publish(self) -> None:
+        """Check publish requests the OIDC permission."""
+        assert PackageWorkflowConfigFile.I.permissions_job_publish() == {
+            "id-token": "write",
+        }
 
     def test_stem(self) -> None:
         """Check the workflow filename."""

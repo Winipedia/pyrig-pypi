@@ -38,7 +38,7 @@ class PackageWorkflowConfigFile(WorkflowConfigFile):
             self.job_publish,
             needs=self.job_publish_needs(),
             environment=self.stem(),
-            permissions=self.job_publish_permissions(),
+            permissions=self.permissions_job_publish(),
             steps=self.steps_publish(),
             timeout_minutes=30,
         )
@@ -47,7 +47,7 @@ class PackageWorkflowConfigFile(WorkflowConfigFile):
         """Return the package build prerequisite."""
         return (self.job_build,)
 
-    def job_publish_permissions(self) -> dict[str, str]:
+    def permissions_job_publish(self) -> dict[str, str]:
         """Return the OIDC permission for PyPI trusted publishing."""
         return self.permission_id_token(write=True)
 
@@ -65,7 +65,7 @@ class PackageWorkflowConfigFile(WorkflowConfigFile):
         """Build and upload distributions."""
         return self.job(
             self.job_build,
-            permissions=self.job_build_permissions(),
+            permissions=self.permissions_job_build(),
             steps=self.steps_build(),
             timeout_minutes=60,
         )
@@ -85,7 +85,7 @@ class PackageWorkflowConfigFile(WorkflowConfigFile):
             run=str(PackageManager.I.publish_trusted_args()),
         )
 
-    def job_build_permissions(self) -> dict[str, str]:
+    def permissions_job_build(self) -> dict[str, str]:
         """Return read-only repository permissions for checkout."""
         return self.permission_contents()
 
