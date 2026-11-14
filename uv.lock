@@ -1419,7 +1419,7 @@ wheels = [
 
 [[package]]
 name = "pyrig-pypi"
-version = "4.0.16"
+version = "4.0.17"
 source = { editable = "." }
 dependencies = [
     { name = "pyrig" },

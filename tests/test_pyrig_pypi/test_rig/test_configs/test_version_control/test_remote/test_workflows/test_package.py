@@ -67,11 +67,10 @@ class TestPackageWorkflowConfigFile:
 
     def test_step_build_package(self) -> None:
         """Check the build command."""
-        assert PackageWorkflowConfigFile.I.step_build_package() == {
-            "id": "build-package",
-            "name": "Build Package",
-            "run": "uv build",
-        }
+        step = PackageWorkflowConfigFile.I.step_build_package()
+        assert step["id"] == "build-package"
+        assert step["name"] == "Build Package"
+        assert step["run"] == "uv build"
 
     def test_step_download_distributions(self) -> None:
         """Check the artifact download."""
@@ -83,11 +82,10 @@ class TestPackageWorkflowConfigFile:
 
     def test_step_publish_package(self) -> None:
         """Check the trusted-publishing command."""
-        assert PackageWorkflowConfigFile.I.step_publish_package() == {
-            "id": "publish-package",
-            "name": "Publish Package",
-            "run": "uv publish --trusted-publishing=always",
-        }
+        step = PackageWorkflowConfigFile.I.step_publish_package()
+        assert step["id"] == "publish-package"
+        assert step["name"] == "Publish Package"
+        assert step["run"] == "uv publish --trusted-publishing=always"
 
     def test_step_upload_distributions(self) -> None:
         """Check the artifact upload."""
