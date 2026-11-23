@@ -5,8 +5,11 @@ from types import MethodType
 from typing import Any, override
 
 from pyrig.rig.configs.base.workflow import WorkflowConfigFile
+from pyrig.rig.tools.packages.manager import PackageManager
 
-from pyrig_pypi.rig.tools.packages.manager import PackageManager
+from pyrig_pypi.rig.tools.packages.manager import (
+    PackageManager as PyPIPackageManager,
+)
 
 
 class PackageWorkflowConfigFile(WorkflowConfigFile):
@@ -82,7 +85,7 @@ class PackageWorkflowConfigFile(WorkflowConfigFile):
         """Publish the distributions using PyPI trusted publishing."""
         return self.step(
             self.step_publish_package,
-            run=str(PackageManager.I.publish_trusted_args()),
+            run=str(PyPIPackageManager.I.publish_trusted_args()),
         )
 
     def permissions_job_build(self) -> dict[str, str]:

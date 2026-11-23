@@ -5,9 +5,12 @@ from typing import override
 from pyrig.rig.configs.version_control.remote.configure import (
     ConfigureRepositoryConfigFile as BaseConfigureRepositoryConfigFile,
 )
+from pyrig.rig.configs.version_control.remote.settings import (
+    RepositorySettingsConfigFile,
+)
 
 from pyrig_pypi.rig.configs.version_control.remote.settings import (
-    RepositorySettingsConfigFile,
+    RepositorySettingsConfigFile as PyPIRepositorySettingsConfigFile,
 )
 
 
@@ -35,7 +38,7 @@ class ConfigureRepositoryConfigFile(BaseConfigureRepositoryConfigFile):
             `PUT`s it to replace the repository's topics.
         """
         settings_path = RepositorySettingsConfigFile.I.path().as_posix()
-        topics_key = RepositorySettingsConfigFile.I.topics_key()
+        topics_key = PyPIRepositorySettingsConfigFile.I.topics_key()
         endpoint = f"repos/${{{self.repo_variable()}}}/topics"
         extract = f"jq '{{names: .{topics_key}}}' {settings_path}"
         api_call = f'gh api "{endpoint}" --method=PUT --input=-'
