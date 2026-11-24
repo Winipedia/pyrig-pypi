@@ -1,6 +1,6 @@
 """PyPI-specific extensions to the project's `pyproject.toml` configuration."""
 
-from typing import Any, override
+from typing import Any, cast, override
 
 from pyrig.core.iterate import dict_insert
 from pyrig.rig.configs.pyproject import (
@@ -44,7 +44,10 @@ class PyprojectConfigFile(BasePyprojectConfigFile):
             The keywords currently set in `pyproject.toml`, or an empty list if
             none are set.
         """
-        return self.safe_load().get("project", {}).get("keywords", [])
+        return cast(
+            "list[str]",
+            self.safe_load().get("project", {}).get("keywords", []),
+        )
 
     def classifiers_configs(self) -> list[str]:
         """Build the PyPI trove classifiers for the project.
