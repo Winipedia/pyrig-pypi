@@ -8,10 +8,6 @@ from pyrig_pypi.rig.configs.version_control.remote.workflows.package import (
 class TestPackageWorkflowConfigFile:
     """Test package building and publishing."""
 
-    def test_concurrency_cancel_in_progress(self) -> None:
-        """Ensure an active publish cannot be cancelled by a subsequent run."""
-        assert PackageWorkflowConfigFile.I.concurrency_cancel_in_progress() is False
-
     def test_distributions_artifact_name(self) -> None:
         """Check the shared distributions artifact name."""
         assert (

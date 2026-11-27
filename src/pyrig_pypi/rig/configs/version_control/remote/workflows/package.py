@@ -16,11 +16,6 @@ class PackageWorkflowConfigFile(WorkflowConfigFile):
     """Build distributions and publish them to PyPI."""
 
     @override
-    def concurrency_cancel_in_progress(self) -> bool:
-        """Return `False`; package publishing must not be cancelled."""
-        return False
-
-    @override
     def jobs(self) -> tuple[Callable[[], dict[str, Any]], ...]:
         """Return the package build and publish jobs."""
         return (self.job_build, self.job_publish)
