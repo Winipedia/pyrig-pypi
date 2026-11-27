@@ -1,4 +1,4 @@
-"""PyPI-specific extension of `.github/configure.sh`."""
+"""PyPI-specific extension of `scripts/configure-repo.sh`."""
 
 from typing import override
 

@@ -129,7 +129,7 @@ The plugin subclasses some pyrig base classes:
 - `RepositorySettingsConfigFile` to mirror the keywords in `pyproject.toml` as
   GitHub topics in `.github/settings.json`.
 - `ConfigureRepositoryConfigFile` to sync those topics to the repository via
-  the GitHub API in `.github/configure.sh`.
+  the GitHub API in `scripts/configure-repo.sh`.
 
 And adds its own config file and tool classes:
 
