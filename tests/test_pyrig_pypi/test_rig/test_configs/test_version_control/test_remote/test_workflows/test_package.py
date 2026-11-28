@@ -18,22 +18,22 @@ class TestPackageWorkflowConfigFile:
         """Check build permissions, steps, and timeout."""
         workflow = PackageWorkflowConfigFile.I
         job = workflow.job_build()
-        assert job["job_id"] == "build"
+        assert "build" in workflow.job_as_dict(workflow.job_build)
         assert job["permissions"] == {"contents": "read"}
         assert job["timeout-minutes"] == 60  # noqa: PLR2004
-        assert job["steps"] == workflow.steps_build()
+        assert job["steps"] == workflow.steps_configs(workflow.steps_build())
         assert "needs" not in job
 
     def test_job_publish(self) -> None:
         """Check publish depends on the build and uses the package environment."""
         workflow = PackageWorkflowConfigFile.I
         job = workflow.job_publish()
-        assert job["job_id"] == "publish"
+        assert "publish" in workflow.job_as_dict(workflow.job_publish)
         assert job["needs"] == ["build"]
         assert job["environment"] == "package"
         assert job["permissions"] == {"id-token": "write"}
         assert job["timeout-minutes"] == 30  # noqa: PLR2004
-        assert job["steps"] == workflow.steps_publish()
+        assert job["steps"] == workflow.steps_configs(workflow.steps_publish())
 
     def test_job_publish_needs(self) -> None:
         """Check the build is the publish prerequisite."""
@@ -63,14 +63,16 @@ class TestPackageWorkflowConfigFile:
 
     def test_step_build_package(self) -> None:
         """Check the build command."""
-        step = PackageWorkflowConfigFile.I.step_build_package()
+        workflow = PackageWorkflowConfigFile.I
+        step = workflow.step_as_dict(workflow.step_build_package)
         assert step["id"] == "build-package"
         assert step["name"] == "Build Package"
         assert step["run"] == "uv build"
 
     def test_step_download_distributions(self) -> None:
         """Check the artifact download."""
-        step = PackageWorkflowConfigFile.I.step_download_distributions()
+        workflow = PackageWorkflowConfigFile.I
+        step = workflow.step_as_dict(workflow.step_download_distributions)
         assert step["id"] == "download-distributions"
         assert step["name"] == "Download Distributions"
         assert step["with"] == {"name": "distributions", "path": "dist"}
@@ -78,14 +80,16 @@ class TestPackageWorkflowConfigFile:
 
     def test_step_publish_package(self) -> None:
         """Check the trusted-publishing command."""
-        step = PackageWorkflowConfigFile.I.step_publish_package()
+        workflow = PackageWorkflowConfigFile.I
+        step = workflow.step_as_dict(workflow.step_publish_package)
         assert step["id"] == "publish-package"
         assert step["name"] == "Publish Package"
         assert step["run"] == "uv publish --trusted-publishing=always"
 
     def test_step_upload_distributions(self) -> None:
         """Check the artifact upload."""
-        step = PackageWorkflowConfigFile.I.step_upload_distributions()
+        workflow = PackageWorkflowConfigFile.I
+        step = workflow.step_as_dict(workflow.step_upload_distributions)
         assert step["id"] == "upload-distributions"
         assert step["name"] == "Upload Distributions"
         assert step["with"] == {
@@ -98,16 +102,18 @@ class TestPackageWorkflowConfigFile:
     def test_steps_build(self) -> None:
         """Check build and upload follow core setup."""
         workflow = PackageWorkflowConfigFile.I
-        assert workflow.steps_build() == [
-            *workflow.steps_core_setup(),
-            workflow.step_build_package(),
-            workflow.step_upload_distributions(),
-        ]
+        assert workflow.steps_configs(workflow.steps_build()) == workflow.steps_configs(
+            (
+                *workflow.steps_core_setup(),
+                workflow.step_build_package,
+                workflow.step_upload_distributions,
+            ),
+        )
 
     def test_steps_publish(self) -> None:
         """Check publishing setup, artifact download, and cache configuration."""
         workflow = PackageWorkflowConfigFile.I
-        steps = workflow.steps_publish()
+        steps = workflow.steps_configs(workflow.steps_publish())
         assert [step["name"] for step in steps] == [
             "Setup Package Manager",
             "Download Distributions",
@@ -115,8 +121,8 @@ class TestPackageWorkflowConfigFile:
         ]
         assert steps[0]["with"]["enable-cache"] == "false"
         assert steps[1:] == [
-            workflow.step_download_distributions(),
-            workflow.step_publish_package(),
+            workflow.step_as_dict(workflow.step_download_distributions),
+            workflow.step_as_dict(workflow.step_publish_package),
         ]
 
     def test_workflow_triggers(self) -> None:

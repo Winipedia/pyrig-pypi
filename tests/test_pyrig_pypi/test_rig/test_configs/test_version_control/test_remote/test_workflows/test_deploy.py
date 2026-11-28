@@ -10,8 +10,8 @@ class TestDeployWorkflowConfigFile:
 
     def test_job_package(self) -> None:
         """Check the package call's reference and permissions."""
-        job = DeployWorkflowConfigFile.I.job_package()
-        assert job["job_id"] == "package"
+        workflow = DeployWorkflowConfigFile.I
+        job = workflow.job_as_dict(workflow.job_package)["package"]
         assert job["uses"] == "$/.github/workflows/package.yml"
         assert job["permissions"] == {"contents": "read", "id-token": "write"}
         assert "secrets" not in job

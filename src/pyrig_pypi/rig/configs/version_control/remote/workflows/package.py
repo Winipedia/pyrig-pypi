@@ -1,6 +1,7 @@
 """Reusable workflow for building and publishing a Python package."""
 
 from collections.abc import Callable
+from functools import wraps
 from typing import Any, override
 
 from pyrig.rig.configs.base.workflow import WorkflowConfigFile
@@ -32,7 +33,6 @@ class PackageWorkflowConfigFile(WorkflowConfigFile):
     def job_publish(self) -> dict[str, Any]:
         """Publish the distributions after the build succeeds."""
         return self.job(
-            self.job_publish,
             needs=self.job_publish_needs(),
             environment=self.stem(),
             permissions=self.permissions_job_publish(),
@@ -48,20 +48,24 @@ class PackageWorkflowConfigFile(WorkflowConfigFile):
         """Return the OIDC permission for PyPI trusted publishing."""
         return self.permission_id_token(write=True)
 
-    def steps_publish(self) -> list[dict[str, Any]]:
+    def steps_publish(self) -> tuple[Callable[[], dict[str, Any]], ...]:
         """Return package-manager setup, artifact download, and publish steps."""
-        setup_package_manager = self.step_setup_package_manager()
-        setup_package_manager["with"]["enable-cache"] = "false"
-        return [
+
+        @wraps(self.step_setup_package_manager)
+        def setup_package_manager() -> dict[str, Any]:
+            step = self.step_setup_package_manager()
+            step["with"]["enable-cache"] = "false"
+            return step
+
+        return (
             setup_package_manager,
-            self.step_download_distributions(),
-            self.step_publish_package(),
-        ]
+            self.step_download_distributions,
+            self.step_publish_package,
+        )
 
     def job_build(self) -> dict[str, Any]:
         """Build and upload distributions."""
         return self.job(
-            self.job_build,
             permissions=self.permissions_job_build(),
             steps=self.steps_build(),
             timeout_minutes=60,
@@ -70,7 +74,6 @@ class PackageWorkflowConfigFile(WorkflowConfigFile):
     def step_download_distributions(self) -> dict[str, Any]:
         """Download the distributions into the package directory."""
         return self.step_download_artifact(
-            self.step_download_distributions,
             name=self.distributions_artifact_name(),
             path=PackageManager.I.dist_dir(),
         )
@@ -78,7 +81,6 @@ class PackageWorkflowConfigFile(WorkflowConfigFile):
     def step_publish_package(self) -> dict[str, Any]:
         """Publish the distributions using PyPI trusted publishing."""
         return self.step(
-            self.step_publish_package,
             run=str(PyPIPackageManager.I.publish_trusted_args()),
         )
 
@@ -86,25 +88,23 @@ class PackageWorkflowConfigFile(WorkflowConfigFile):
         """Return read-only repository permissions for checkout."""
         return self.permission_contents()
 
-    def steps_build(self) -> list[dict[str, Any]]:
+    def steps_build(self) -> tuple[Callable[[], dict[str, Any]], ...]:
         """Return setup, package build, and artifact upload steps."""
-        return [
+        return (
             *self.steps_core_setup(),
-            self.step_build_package(),
-            self.step_upload_distributions(),
-        ]
+            self.step_build_package,
+            self.step_upload_distributions,
+        )
 
     def step_build_package(self) -> dict[str, Any]:
         """Build wheel and source distributions."""
         return self.step(
-            self.step_build_package,
             run=str(PackageManager.I.build_args()),
         )
 
     def step_upload_distributions(self) -> dict[str, Any]:
         """Upload the distributions as a workflow artifact."""
         return self.step_upload_artifact(
-            self.step_upload_distributions,
             name=self.distributions_artifact_name(),
             path=PackageManager.I.dist_dir(),
         )

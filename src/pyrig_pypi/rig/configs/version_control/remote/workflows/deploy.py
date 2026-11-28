@@ -23,6 +23,5 @@ class DeployWorkflowConfigFile(BaseDeployWorkflowConfigFile):
     def job_package(self) -> dict[str, Any]:
         """Call the reusable package build and publish workflow."""
         return self.job_workflow_call(
-            self.job_package,
             workflow=PackageWorkflowConfigFile,
         )
