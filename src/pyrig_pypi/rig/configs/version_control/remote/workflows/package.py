@@ -1,7 +1,7 @@
 """Reusable workflow for building and publishing a Python package."""
 
 from collections.abc import Callable
-from functools import wraps
+from functools import partial, update_wrapper
 from typing import Any, override
 
 from pyrig.rig.configs.base.workflow import WorkflowConfigFile
@@ -50,15 +50,11 @@ class PackageWorkflowConfigFile(WorkflowConfigFile):
 
     def steps_publish(self) -> tuple[Callable[[], dict[str, Any]], ...]:
         """Return package-manager setup, artifact download, and publish steps."""
-
-        @wraps(self.step_setup_package_manager)
-        def setup_package_manager() -> dict[str, Any]:
-            step = self.step_setup_package_manager()
-            step["with"]["enable-cache"] = "false"
-            return step
-
         return (
-            setup_package_manager,
+            update_wrapper(
+                partial(self.step_setup_package_manager, enable_cache=False),
+                self.step_setup_package_manager,
+            ),
             self.step_download_distributions,
             self.step_publish_package,
         )
