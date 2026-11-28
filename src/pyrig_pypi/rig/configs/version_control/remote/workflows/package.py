@@ -1,7 +1,6 @@
 """Reusable workflow for building and publishing a Python package."""
 
 from collections.abc import Callable
-from types import MethodType
 from typing import Any, override
 
 from pyrig.rig.configs.base.workflow import WorkflowConfigFile
@@ -41,7 +40,7 @@ class PackageWorkflowConfigFile(WorkflowConfigFile):
             timeout_minutes=30,
         )
 
-    def job_publish_needs(self) -> tuple[MethodType, ...]:
+    def job_publish_needs(self) -> tuple[Callable[[], dict[str, Any]], ...]:
         """Return the package build prerequisite."""
         return (self.job_build,)
 
